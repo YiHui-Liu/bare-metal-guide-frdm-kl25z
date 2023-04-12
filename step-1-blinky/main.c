@@ -2,10 +2,7 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
-#define BIT9 0x200
-#define BIT12 0x1000
-#define BIT18 0x40000
-#define BIT19 0x80000
+#define BIT(x) (1UL << (x))
 
 static inline void spin(volatile uint32_t count) {
   while (count--)
@@ -23,20 +20,20 @@ int main(void) {
   PORTB_PCR19 = 0x0100;
 
   // R
-  GPIOC_PDDR |= BIT9;
-  GPIOC_PDOR |= BIT9;
+  GPIOC_PDDR |= BIT(9);
+  GPIOC_PDOR |= BIT(9);
 
   // B
-  GPIOB_PDDR |= BIT18;
-  // GPIOB_PDOR |= BIT18;
+  GPIOB_PDDR |= BIT(18);
+  GPIOB_PDOR |= BIT(18);
 
   // G
-  GPIOB_PDDR |= BIT19;
-  // GPIOB_PDOR |= BIT19;
+  GPIOB_PDDR |= BIT(19);
+  GPIOB_PDOR |= BIT(19);
 
   // turn on or off LED
-  GPIOC_PDDR |= BIT12;
-  GPIOC_PDOR &= ~BIT12;
+  GPIOC_PDDR |= BIT(12);
+  GPIOC_PDOR &= ~BIT(12);
 
   for (;;) {
     spin(999999);

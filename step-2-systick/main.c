@@ -1,103 +1,88 @@
-// Copyright (c) 2022 Cesanta Software Limited
-// All rights reserved
-
+#include "MKL25Z4.h"
 #include <inttypes.h>
 #include <stdbool.h>
 
 #define BIT(x) (1UL << (x))
-#define PIN(bank, num) ((((bank) - 'A') << 8) | (num))
-#define PINNO(pin) (pin & 255)
-#define PINBANK(pin) (pin >> 8)
-
-struct systick {
-  volatile uint32_t CTRL, LOAD, VAL, CALIB;
-};
-#define SYSTICK ((struct systick *) 0xe000e010)  // 2.2.2
-
-struct rcc {
-  volatile uint32_t CR, PLLCFGR, CFGR, CIR, AHB1RSTR, AHB2RSTR, AHB3RSTR,
-      RESERVED0, APB1RSTR, APB2RSTR, RESERVED1[2], AHB1ENR, AHB2ENR, AHB3ENR,
-      RESERVED2, APB1ENR, APB2ENR, RESERVED3[2], AHB1LPENR, AHB2LPENR,
-      AHB3LPENR, RESERVED4, APB1LPENR, APB2LPENR, RESERVED5[2], BDCR, CSR,
-      RESERVED6[2], SSCGR, PLLI2SCFGR;
-};
-#define RCC ((struct rcc *) 0x40023800)
 
 static inline void systick_init(uint32_t ticks) {
-  if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
-  SYSTICK->LOAD = ticks - 1;
-  SYSTICK->VAL = 0;
-  SYSTICK->CTRL = BIT(0) | BIT(1) | BIT(2);  // Enable systick
-  RCC->APB2ENR |= BIT(14);                   // Enable SYSCFG
+  if ((ticks - 1) > 0xffffff)
+    return; // Systick timer is 24 bit
+  SYST_RVR = ticks - 1;
+  SYST_CVR = 0;
+  SYST_CSR = SysTick_CSR_ENABLE_MASK | SysTick_CSR_TICKINT_MASK |
+             SysTick_CSR_CLKSOURCE_MASK; // Enable systick timer
 }
 
-struct gpio {
-  volatile uint32_t MODER, OTYPER, OSPEEDR, PUPDR, IDR, ODR, BSRR, LCKR, AFR[2];
-};
-#define GPIO(bank) ((struct gpio *) (0x40020000 + 0x400 * (bank)))
+static volatile uint32_t ms_ticks; // volatile is important!!
+void SysTick_Handler(void) { ms_ticks++; }
 
-// Enum values are per datasheet: 0, 1, 2, 3
-enum { GPIO_MODE_INPUT, GPIO_MODE_OUTPUT, GPIO_MODE_AF, GPIO_MODE_ANALOG };
-
-static inline void gpio_set_mode(uint16_t pin, uint8_t mode) {
-  struct gpio *gpio = GPIO(PINBANK(pin));  // GPIO bank
-  int n = PINNO(pin);                      // Pin number
-  gpio->MODER &= ~(3U << (n * 2));         // Clear existing setting
-  gpio->MODER |= (mode & 3U) << (n * 2);   // Set new mode
-}
-
-static inline void gpio_write(uint16_t pin, bool val) {
-  struct gpio *gpio = GPIO(PINBANK(pin));
-  gpio->BSRR = (1U << PINNO(pin)) << (val ? 0 : 16);
-}
-
-static inline void spin(volatile uint32_t count) {
-  while (count--) asm("nop");
-}
-
-static volatile uint32_t s_ticks;
-void SysTick_Handler(void) { s_ticks++; }
-
-// t: expiration time, prd: period, now: current time. Return true if expired
-bool timer_expired(uint32_t *t, uint32_t prd, uint32_t now) {
-  if (now + prd < *t) *t = 0;                    // Time wrapped? Reset timer
-  if (*t == 0) *t = now + prd;                   // Firt poll? Set expiration
-  if (*t > now) return false;                    // Not expired yet, return
-  *t = (now - *t) > prd ? now + prd : *t + prd;  // Next expiration time
-  return true;                                   // Expired, return true
+// t: expiration time, prd: period. Return true if expired
+bool timer_expired(uint32_t *t, uint64_t prd) {
+  if (ms_ticks + prd < *t)
+    *t = 0; // Time wrapped? Reset timer
+  if (*t == 0)
+    *t = ms_ticks + prd; // First poll? Set expiration
+  if (*t > ms_ticks)
+    return false; // Not expired yet, return
+  *t =
+      (ms_ticks - *t) > prd ? ms_ticks + prd : *t + prd; // Next expiration time
+  return true;                                           // Expired, return true
 }
 
 int main(void) {
-  uint16_t led = PIN('B', 7);            // Blue LED
-  RCC->AHB1ENR |= BIT(PINBANK(led));     // Enable GPIO clock for LED
-  systick_init(16000000 / 1000);         // Tick every 1 ms
-  gpio_set_mode(led, GPIO_MODE_OUTPUT);  // Set blue LED to output mode
-  uint32_t timer = 0, period = 500;      // Declare timer and 500ms period
+  uint32_t timer = 0;
+  systick_init(48000000 / 1000); // 1ms
+
+  // Enable clock for PORTC and PORTB
+  SIM_SCGC5 |= (1 << 11) + (1 << 10);
+
+  // Set PORTC12, PORTC9, PORTB18, PORTB19 as GPIO
+  PORTC_PCR12 = 0x0100;
+  PORTC_PCR9 = 0x0100;
+  PORTB_PCR18 = 0x0100;
+  PORTB_PCR19 = 0x0100;
+
+  // R
+  GPIOC_PDDR |= BIT(9);
+  GPIOC_PDOR |= BIT(9);
+
+  // B
+  GPIOB_PDDR |= BIT(18);
+  GPIOB_PDOR |= BIT(18);
+
+  // G
+  GPIOB_PDDR |= BIT(19);
+  GPIOB_PDOR |= BIT(19);
+
+  // turn on or off LED
+  GPIOC_PDDR |= BIT(12);
+  GPIOC_PDOR &= ~BIT(12);
+
   for (;;) {
-    if (timer_expired(&timer, period, s_ticks)) {
-      static bool on;       // This block is executed
-      gpio_write(led, on);  // Every `period` milliseconds
-      on = !on;             // Toggle LED state
-    }
-    // Here we could perform other activities!
+    if (timer_expired(&timer, 5000))
+      GPIOC_PDOR = ~GPIOC_PDOR;
   }
-  return 0;
 }
 
-// Startup code
 __attribute__((naked, noreturn)) void _reset(void) {
-  // Initialise memory
   extern long _sbss, _ebss, _sdata, _edata, _sidata;
-  for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
-  for (long *src = &_sdata, *dst = &_sidata; src < &_edata;) *src++ = *dst++;
-
-  // Call main()
+  for (long *src = &_sbss; src < &_ebss; src++)
+    *src = 0;
+  for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++)
+    *src = *dst;
   main();
-  for (;;) (void) 0;  // Infinite loop
+  for (;;)
+    (void)0;
 }
 
-extern void _estack(void);  // Defined in link.ld
+extern void _estack(void);
 
-// 16 standard and 91 STM32-specific handlers
-__attribute__((section(".vectors"))) void (*tab[16 + 91])(void) = {
+/*
+    Set tab (the vector table) in the section ".vectors"
+    and the size of the vector table is 16 + 33
+    the first 16 * 4 bytes are reserved for the Cortex-M0+ core
+    the first one is the initial stack pointer
+    the second one is the initial program counter
+*/
+__attribute__((section(".vectors"))) void (*tab[16 + 33])(void) = {
     _estack, _reset, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SysTick_Handler};

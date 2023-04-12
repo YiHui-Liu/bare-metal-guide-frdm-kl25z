@@ -1,0 +1,4 @@
+r
+loadbin firmware.bin, 0x0
+r
+q
