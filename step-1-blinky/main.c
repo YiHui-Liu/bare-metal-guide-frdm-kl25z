@@ -1,72 +1,68 @@
-// Copyright (c) 2022 Cesanta Software Limited
-// All rights reserved
-
+#include "MKL25Z4.h"
 #include <inttypes.h>
 #include <stdbool.h>
 
-#define BIT(x) (1UL << (x))
-#define PIN(bank, num) ((((bank) - 'A') << 8) | (num))
-#define PINNO(pin) (pin & 255)
-#define PINBANK(pin) (pin >> 8)
-
-struct rcc {
-  volatile uint32_t CR, PLLCFGR, CFGR, CIR, AHB1RSTR, AHB2RSTR, AHB3RSTR,
-      RESERVED0, APB1RSTR, APB2RSTR, RESERVED1[2], AHB1ENR, AHB2ENR, AHB3ENR,
-      RESERVED2, APB1ENR, APB2ENR, RESERVED3[2], AHB1LPENR, AHB2LPENR,
-      AHB3LPENR, RESERVED4, APB1LPENR, APB2LPENR, RESERVED5[2], BDCR, CSR,
-      RESERVED6[2], SSCGR, PLLI2SCFGR;
-};
-#define RCC ((struct rcc *) 0x40023800)
-
-struct gpio {
-  volatile uint32_t MODER, OTYPER, OSPEEDR, PUPDR, IDR, ODR, BSRR, LCKR, AFR[2];
-};
-#define GPIO(bank) ((struct gpio *) (0x40020000 + 0x400 * (bank)))
-
-// Enum values are per datasheet: 0, 1, 2, 3
-enum { GPIO_MODE_INPUT, GPIO_MODE_OUTPUT, GPIO_MODE_AF, GPIO_MODE_ANALOG };
-
-static inline void gpio_set_mode(uint16_t pin, uint8_t mode) {
-  struct gpio *gpio = GPIO(PINBANK(pin));  // GPIO bank
-  int n = PINNO(pin);                      // Pin number
-  gpio->MODER &= ~(3U << (n * 2));         // Clear existing setting
-  gpio->MODER |= (mode & 3U) << (n * 2);   // Set new mode
-}
-
-static inline void gpio_write(uint16_t pin, bool val) {
-  struct gpio *gpio = GPIO(PINBANK(pin));
-  gpio->BSRR = (1U << PINNO(pin)) << (val ? 0 : 16);
-}
+#define BIT9 0x200
+#define BIT12 0x1000
+#define BIT18 0x40000
+#define BIT19 0x80000
 
 static inline void spin(volatile uint32_t count) {
-  while (count--) asm("nop");
+  while (count--)
+    asm("nop");
 }
 
 int main(void) {
-  uint16_t led = PIN('B', 7);            // Blue LED
-  RCC->AHB1ENR |= BIT(PINBANK(led));     // Enable GPIO clock for LED
-  gpio_set_mode(led, GPIO_MODE_OUTPUT);  // Set blue LED to output mode
+  // Enable clock for PORTC and PORTB
+  SIM_SCGC5 |= (1 << 11) + (1 << 10);
+
+  // Set PORTC12, PORTC9, PORTB18, PORTB19 as GPIO
+  PORTC_PCR12 = 0x0100;
+  PORTC_PCR9 = 0x0100;
+  PORTB_PCR18 = 0x0100;
+  PORTB_PCR19 = 0x0100;
+
+  // R
+  GPIOC_PDDR |= BIT9;
+  GPIOC_PDOR |= BIT9;
+
+  // B
+  GPIOB_PDDR |= BIT18;
+  // GPIOB_PDOR |= BIT18;
+
+  // G
+  GPIOB_PDDR |= BIT19;
+  // GPIOB_PDOR |= BIT19;
+
+  // turn on or off LED
+  GPIOC_PDDR |= BIT12;
+  GPIOC_PDOR &= ~BIT12;
+
   for (;;) {
-    gpio_write(led, true);
     spin(999999);
-    gpio_write(led, false);
-    spin(999999);
+    GPIOC_PDOR = ~GPIOC_PDOR;
   }
-  return 0;
 }
 
-// Startup code
 __attribute__((naked, noreturn)) void _reset(void) {
-  // memset .bss to zero, and copy .data section to RAM region
   extern long _sbss, _ebss, _sdata, _edata, _sidata;
-  for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
-  for (long *src = &_sdata, *dst = &_sidata; src < &_edata;) *src++ = *dst++;
-
-  main();             // Call main()
-  for (;;) (void) 0;  // Infinite loop in the case if main() returns
+  for (long *src = &_sbss; src < &_ebss; src++)
+    *src = 0;
+  for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++)
+    *src = *dst;
+  main();
+  for (;;)
+    (void)0;
 }
 
-extern void _estack(void);  // Defined in link.ld
+extern void _estack(void);
 
-// 16 standard and 91 STM32-specific handlers
-__attribute__((section(".vectors"))) void (*tab[16 + 91])(void) = {_estack, _reset};
+/*
+    Set tab (the vector table) in the section ".vectors"
+    and the size of the vector table is 16 + 33
+    the first 16 * 4 bytes are reserved for the Cortex-M0+ core
+    the first one is the initial stack pointer
+    the second one is the initial program counter
+*/
+__attribute__((section(".vectors"))) void (*tab[16 + 33])(void) = {_estack,
+                                                                   _reset};

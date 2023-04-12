@@ -22,8 +22,9 @@
 - 系统时钟配置
 - 实现一个带设备仪表盘的web服务器
 
-我们将使用[Nucleo-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)开发板([淘宝购买](https://item.taobao.com/item.htm?spm=a230r.1.14.232.74e4559brlH7oU&id=655793165717&ns=1&abbucket=5#detail))贯穿整个指南的实践，每个章节都有一个相关的完整小项目可以实战。最后一个web服务器项目非常完整，可以作为你自己项目的框架，因此这个示例项目也提供了其他开发板的适配：
+我们将使用[FRDM KL25Z128](https://www.nxp.com/design/development-boards/freedom-development-boards/mcu-boards/freedom-development-platform-for-kinetis-kl14-kl15-kl24-kl25-mcus:FRDM-KL25Z)开发板贯穿整个指南的实践，每个章节都有一个相关的完整小项目可以实战。最后一个web服务器项目非常完整，可以作为你自己项目的框架，因此这个示例项目也提供了其他开发板的适配：
 
+- [FRDM KL25Z128]()
 - [STM32 Nucleo-F429ZI](step-7-webserver/nucleo-f429zi/)
 - [TI EK-TM4C1294XL](step-7-webserver/ek-tm4c1294xl/)
 - [树莓派 Pico-W](step-7-webserver/pico-w/)
