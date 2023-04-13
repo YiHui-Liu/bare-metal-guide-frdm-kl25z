@@ -1,6 +1,9 @@
-CFLAGS  ?= -mcpu=cortex-m0plus -Iinclude $(EXTRA_CFLAGS)
+CFLAGS  ?= -W -Wall -Wextra -Werror -Wundef -Wshadow -Wdouble-promotion \
+           -Wformat-truncation -fno-common -Wconversion \
+           -g3 -Og -ffunction-sections -fdata-sections \
+		   -Iinclude -mcpu=cortex-m0plus -mthumb $(EXTRA_CFLAGS)
 LDFLAGS ?= -Tlink.ld -nostartfiles -nostdlib --specs nano.specs -lc -lgcc -Wl,--gc-sections -Wl,-Map=$@.map
-SOURCES = main.c
+SOURCES = src/main.c
 
 build: firmware.bin
 

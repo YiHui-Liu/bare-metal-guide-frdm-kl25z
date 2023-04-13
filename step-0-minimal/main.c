@@ -1,14 +1,11 @@
 int main(void) { return 0; }
 
 __attribute__((naked, noreturn)) void _reset(void) {
-  extern long _sbss, _ebss, _sdata, _edata, _sidata;
-  for (long *src = &_sbss; src < &_ebss; src++)
-    *src = 0;
-  for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++)
-    *src = *dst;
-  main();
-  for (;;)
-    (void)0;
+    extern long _sbss, _ebss, _sdata, _edata, _sidata;
+    for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
+    for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++) *src = *dst;
+    main();
+    for (;;) (void)0;
 }
 
 extern void _estack(void);
@@ -20,5 +17,4 @@ extern void _estack(void);
     the first one is the initial stack pointer
     the second one is the initial program counter
 */
-__attribute__((section(".vectors"))) void (*tab[16 + 33])(void) = {_estack,
-                                                                   _reset};
+__attribute__((section(".vectors"))) void (*tab[16 + 33])(void) = {_estack, _reset};
