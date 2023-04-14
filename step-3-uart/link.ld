@@ -1,13 +1,14 @@
 ENTRY(_reset);
 MEMORY {
-    flash(rx): ORIGIN = 0x00000000, LENGTH = 128K
-    sram(rx): ORIGIN = 0x1ffff000, LENGTH = 16K
+    interrupts(rx) : ORIGIN = 0x00000000, LENGTH = 0xC0
+    flash(rx)      : ORIGIN = 0x00000400, LENGTH = 128K - 0x400
+    sram(rwx)      : ORIGIN = 0x1ffff000, LENGTH = 16K
 }
 
 _estack = ORIGIN(sram) + LENGTH(sram); /* 0x20003000, the end of sRAM */
 
 SECTIONS {
-    .vectors : { KEEP(*(.vectors)) } > flash /* vector table */
+    .vectors : { KEEP(*(.vectors)) } > interrupts /* vector table */
     .text : { *(.text*) } > flash /* firmware code */
     .rodata : { *(.rodata*) } > flash /* read-only data */
 

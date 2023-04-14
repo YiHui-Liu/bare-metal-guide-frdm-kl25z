@@ -137,10 +137,10 @@ extern void _estack(void);
 
 /*
     Set tab (the vector table) in the section ".vectors"
-    and the size of the vector table is 16 + 33
+    and the size of the vector table is 16 + 32
     the first 16 * 4 bytes are reserved for the Cortex-M0+ core
     the first one is the initial stack pointer
     the second one is the initial program counter
 */
-__attribute__((section(".vectors"))) void (*tab[16 + 33])(void) = {_estack, _reset, 0, 0, 0, 0, 0, 0,
+__attribute__((section(".vectors"))) void (*tab[16 + 32])(void) = {_estack, _reset, 0, 0, 0, 0, 0, 0,
                                                                    0,       0,      0, 0, 0, 0, 0, SysTick_Handler};
