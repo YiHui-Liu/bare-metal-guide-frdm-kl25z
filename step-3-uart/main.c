@@ -5,6 +5,8 @@
 
 #define BIT(x) (1UL << (x))
 #define BUSCLK 10500000  // Bus Rate clock, 10.5 Mhz
+// #define BUSCLK 24000000  // Bus Rate clock, 24 Mhz
+#define KINETIS_WDOG_DISABLED_CTRL 0x0
 
 static inline void spin(volatile uint32_t count) {
     while (count--) asm("nop");
@@ -40,8 +42,7 @@ static inline void uart1_init(unsigned long baud) {
     PORTC_PCR3 = PORT_PCR_MUX(0x3);
     PORTC_PCR4 = PORT_PCR_MUX(0x3);
 
-    // Make sure that the transmitter and receiver are disabled while we change
-    // settings.
+    // Make sure that the transmitter and receiver are disabled while we change settings.
     UART1_C2 &= (uint8_t)(~(UART_C2_TE_MASK | UART_C2_RE_MASK));
 
     // default settings, no parity, so entire register is cleared
@@ -62,27 +63,20 @@ static inline void uart1_init(unsigned long baud) {
 }
 
 static inline int uart1_read_ready() {
-    // Receive Data Register Full Flag (RDRF): set when the receive data buffer is
-    // full
+    // Receive Data Register Full Flag (RDRF): set when the receive data buffer is full
     return UART1_S1 & UART_S1_RDRF_MASK;
 }
 
 static inline uint8_t uart1_read_byte() { return (uint8_t)UART1_D; }
 
 static inline void uart1_write_byte(uint8_t byte) {
-    // Transmit Data Register Empty Flag (TDRE): set when the transmit data buffer
-    // is empty
+    // Transmit Data Register Empty Flag (TDRE): set when the transmit data buffer is empty
     UART1_D = byte;
     while (!(UART1_S1 & UART_S1_TDRE_MASK)) spin(1);
 }
 
 static inline void uart1_write_buf(char *buf, size_t len) {
-    while (len) {
-        uart1_write_byte((uint8_t)(*buf));
-        buf++;
-        len--;
-    }
-    // while (len-- > 0) uart1_write_byte(*(uint8_t *)buf++);
+    while (len-- > 0) uart1_write_byte(*(uint8_t *)buf++);
 }
 
 int main(void) {
@@ -123,10 +117,18 @@ int main(void) {
     }
 }
 
+void __init_hardware() {
+    // Switch off watchdog
+    SIM_COPC = KINETIS_WDOG_DISABLED_CTRL;
+}
+
 __attribute__((naked, noreturn)) void _reset(void) {
+    __init_hardware();
+
     extern long _sbss, _ebss, _sdata, _edata, _sidata;
     for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
     for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++) *src = *dst;
+
     main();
     for (;;) (void)0;
 }

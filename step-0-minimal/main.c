@@ -4,6 +4,7 @@ __attribute__((naked, noreturn)) void _reset(void) {
     extern long _sbss, _ebss, _sdata, _edata, _sidata;
     for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
     for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++) *src = *dst;
+
     main();
     for (;;) (void)0;
 }

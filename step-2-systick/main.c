@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #define BIT(x) (1UL << (x))
+#define KINETIS_WDOG_DISABLED_CTRL 0x0
 
 static inline void spin(volatile uint32_t count) {
     while (count--) asm("nop");
@@ -65,10 +66,18 @@ int main(void) {
     }
 }
 
+void __init_hardware() {
+    // Switch off watchdog
+    SIM_COPC = KINETIS_WDOG_DISABLED_CTRL;
+}
+
 __attribute__((naked, noreturn)) void _reset(void) {
+    __init_hardware();
+
     extern long _sbss, _ebss, _sdata, _edata, _sidata;
     for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
     for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++) *src = *dst;
+
     main();
     for (;;) (void)0;
 }
