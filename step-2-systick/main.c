@@ -93,3 +93,5 @@ extern void _estack(void);
 */
 __attribute__((section(".vectors"))) void (*tab[16 + 32])(void) = {_estack, _reset, 0, 0, 0, 0, 0, 0,
                                                                    0,       0,      0, 0, 0, 0, 0, SysTick_Handler};
+
+__attribute__((section(".cfmconfig"))) uint32_t(cfm[4]) = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFE};

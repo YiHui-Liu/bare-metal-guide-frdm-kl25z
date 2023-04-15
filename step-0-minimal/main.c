@@ -19,3 +19,5 @@ extern void _estack(void);
     the second one is the initial program counter
 */
 __attribute__((section(".vectors"))) void (*tab[16 + 32])(void) = {_estack, _reset};
+
+__attribute__((section(".cfmconfig"))) uint32_t(cfm[4]) = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFE};
