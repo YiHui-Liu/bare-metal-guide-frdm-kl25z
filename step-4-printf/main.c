@@ -3,8 +3,6 @@
 #include "uart.h"
 #include <stdio.h>
 
-void SysTick_Handler(void) { ms_ticks++; }
-
 int main(void) {
     // Initialize
     systick_init(CORCLK / 1000);  // Period of systick timer : 1ms
