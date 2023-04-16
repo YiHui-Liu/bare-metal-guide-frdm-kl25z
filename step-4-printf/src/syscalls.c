@@ -1,4 +1,4 @@
-#include "MKL25Z4.h"
+#include "derivative.h"
 #include "uart.h"
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -37,7 +37,7 @@ int _lseek(int fd, int ptr, int dir) {
 
 int _write(int fd, char *ptr, int len) {
     (void)fd;
-    uart_write_buf(UART1_BASE_PTR, ptr, (size_t)len);
+    uart_write_buf(UART_MSG, ptr, (size_t)len);
     return len;
 }
 
@@ -45,8 +45,8 @@ size_t _read(int fd, char *ptr, int len) {
     (void)fd;
     size_t cnt = 0;
     while (len) {
-        while (!uart_read_ready(UART1_BASE_PTR)) asm("nop");
-        *(uint8_t *)ptr = (unsigned char)uart_read_byte(UART1_BASE_PTR);
+        while (!uart_read_ready(UART_MSG)) asm("nop");
+        *(uint8_t *)ptr = (unsigned char)uart_read_byte(UART_MSG);
         cnt += 1;
         if (*(uint8_t *)ptr == 0x0d) {
             *(uint8_t *)ptr = 0x0a;

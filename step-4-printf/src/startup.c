@@ -1,13 +1,11 @@
-#include "MKL25Z4.h"
+#include "derivative.h"
 #include <string.h>
-
-#define KINETIS_WDOG_DISABLED_CTRL 0x0
 
 extern int main(void);  // Defined in main.c
 
 static void __init_hardware() {
     // Switch off watchdog
-    SIM_COPC = KINETIS_WDOG_DISABLED_CTRL;
+    SIM->COPC = 0x0;
 }
 
 static void zero_fill_bss(void) {
@@ -45,7 +43,6 @@ void Default_Handler() { __asm("bkpt"); }
     the first one is the initial stack pointer
     the second one is the initial program counter
 */
-
 __attribute__((section(".vectors"))) void (*tab[16 + 32])(void) = {
     _estack,          // Initial stack pointer
     _reset,           // Reset handler

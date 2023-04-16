@@ -1,26 +1,24 @@
 #pragma once
 
-#include "MKL25Z4.h"
+#include "derivative.h"
 #include "systick.h"
+#include <stdio.h>
 #include <stdlib.h>
 
-#define CORCLK 20970000  // Default Core clock, 20.97 Mhz
-#define BUSCLK 10500000  // Bus Rate clock, 10.5 Mhz, half of CORCLK
-
-static inline void uart_init(UART_MemMapPtr UART, unsigned long baud) {
+static inline void uart_init(UART_Type *UART, unsigned long baud) {
     // Enable clock for UART and PORT, then set RXD, TXD
-    if (UART == UART1_BASE_PTR) {
-        SIM_SCGC4 |= SIM_SCGC4_UART1_MASK;
-        SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
+    if (UART == UART1) {
+        SIM->SCGC4 |= SIM_SCGC4_UART1_MASK;
+        SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK;
 
-        PORTC_PCR3 = PORT_PCR_MUX(0x3);
-        PORTC_PCR4 = PORT_PCR_MUX(0x3);
-    } else if (UART == UART2_BASE_PTR) {
-        SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
-        SIM_SCGC5 |= SIM_SCGC5_PORTD_MASK;
+        PORTC->PCR[3] = PORT_PCR_MUX(0x3);
+        PORTC->PCR[4] = PORT_PCR_MUX(0x3);
+    } else if (UART == UART2) {
+        SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;
+        SIM->SCGC5 |= SIM_SCGC5_PORTD_MASK;
 
-        PORTD_PCR2 = PORT_PCR_MUX(0x3);
-        PORTD_PCR3 = PORT_PCR_MUX(0x3);
+        PORTD->PCR[2] = PORT_PCR_MUX(0x3);
+        PORTD->PCR[3] = PORT_PCR_MUX(0x3);
     } else
         return;
 
@@ -44,19 +42,19 @@ static inline void uart_init(UART_MemMapPtr UART, unsigned long baud) {
                 | UART_C2_RIE_MASK;  // Receiver interrupt enable
 }
 
-static inline int uart_read_ready(UART_MemMapPtr UART) {
+static inline int uart_read_ready(UART_Type *UART) {
     // Receive Data Register Full Flag (RDRF): set when the receive data buffer is full
     return UART->S1 & UART_S1_RDRF_MASK;
 }
 
-static inline uint8_t uart_read_byte(UART_MemMapPtr UART) { return (uint8_t)UART->D; }
+static inline uint8_t uart_read_byte(UART_Type *UART) { return (uint8_t)UART->D; }
 
-static inline void uart_write_byte(UART_MemMapPtr UART, uint8_t byte) {
+static inline void uart_write_byte(UART_Type *UART, uint8_t byte) {
     // Transmit Data Register Empty Flag (TDRE): set when the transmit data buffer is empty
     while (!(UART->S1 & UART_S1_TDRE_MASK)) asm("nop");
     UART->D = byte;
 }
 
-static inline void uart_write_buf(UART_MemMapPtr UART, char *buf, size_t len) {
+static inline void uart_write_buf(UART_Type *UART, char *buf, size_t len) {
     while (len-- > 0) uart_write_byte(UART, *(uint8_t *)buf++);
 }

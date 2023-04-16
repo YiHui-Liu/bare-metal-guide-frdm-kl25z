@@ -4,22 +4,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BIT(x) (1UL << (x))
-#define BUSCLK 10500000  // Bus Rate clock, 10.5 Mhz
-// #define BUSCLK 24000000  // Bus Rate clock, 24 Mhz
-#define KINETIS_WDOG_DISABLED_CTRL 0x0
-
 static inline void spin(volatile uint32_t count) {
     while (count--) asm("nop");
 }
 
 static inline void systick_init(uint32_t ticks) {
     if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
-    SYST_RVR = ticks - 1;
-    SYST_CVR = 0;
-    SYST_CSR = SysTick_CSR_ENABLE_MASK        // Enable systick timer
-               | SysTick_CSR_TICKINT_MASK     // Enable interrupt
-               | SysTick_CSR_CLKSOURCE_MASK;  // Use butin-in clock
+    SysTick->LOAD = ticks - 1;
+    SysTick->VAL = 0;
+    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk        // Enable systick timer
+                    | SysTick_CTRL_TICKINT_Msk     // Enable interrupt
+                    | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
 }
 
 static volatile uint32_t ms_ticks;  // volatile is important!!
@@ -34,93 +29,102 @@ bool timer_expired(uint32_t *t, uint32_t prd) {
     return true;                                             // Expired, return true
 }
 
-static inline void uart1_init(unsigned long baud) {
-    // Enable clock for UART and PORT
-    SIM_SCGC4 |= SIM_SCGC4_UART1_MASK;
-    SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
+static inline void uart_init(UART_Type *UART, unsigned long baud) {
+    // Enable clock for UART and PORT, then set RXD, TXD
+    if (UART == UART1) {
+        SIM->SCGC4 |= SIM_SCGC4_UART1_MASK;
+        SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK;
 
-    // Set PORTC3, PORTC4 as RXD, TXD
-    PORTC_PCR3 = PORT_PCR_MUX(0x3);
-    PORTC_PCR4 = PORT_PCR_MUX(0x3);
+        PORTC->PCR[3] = PORT_PCR_MUX(0x3);
+        PORTC->PCR[4] = PORT_PCR_MUX(0x3);
+    } else if (UART == UART2) {
+        SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;
+        SIM->SCGC5 |= SIM_SCGC5_PORTD_MASK;
+
+        PORTD->PCR[2] = PORT_PCR_MUX(0x3);
+        PORTD->PCR[3] = PORT_PCR_MUX(0x3);
+    } else
+        return;
 
     // Make sure that the transmitter and receiver are disabled while we change settings.
-    UART1_C2 &= (uint8_t)(~(UART_C2_TE_MASK | UART_C2_RE_MASK));
+    UART->C2 &= (uint8_t)(~(UART_C2_TE_MASK | UART_C2_RE_MASK));
 
     // default settings, no parity, so entire register is cleared
-    UART1_C1 = 0x00;
+    UART->C1 = 0x00;
 
     // UART use the bus-rate clock(BUSCLK)
     // Buad = BUSCLK / (16 * SBR)
     unsigned short sbr = (unsigned short)(BUSCLK / (baud * 16));
 
     // UARTx_BDH bits 0~4 is the high 5 bits of SBR (band rate)
-    UART1_BDH |= (sbr & UART_BDH_SBR_MASK << 8) >> 8;
+    UART->BDH |= (sbr & UART_BDH_SBR_MASK << 8) >> 8;
     // UARTx_BLH is the low 8 bits of SBR (band rate)
-    UART1_BDL = sbr & UART_BDL_SBR_MASK;
+    UART->BDL = sbr & UART_BDL_SBR_MASK;
     // Enable receiver and transmitter
-    UART1_C2 |= UART_C2_TE_MASK      // Transmitter enable
+    UART->C2 |= UART_C2_TE_MASK      // Transmitter enable
                 | UART_C2_RE_MASK    // Receiver enable
                 | UART_C2_RIE_MASK;  // Receiver interrupt enable
 }
 
-static inline int uart1_read_ready() {
+static inline int uart_read_ready(UART_Type *UART) {
     // Receive Data Register Full Flag (RDRF): set when the receive data buffer is full
-    return UART1_S1 & UART_S1_RDRF_MASK;
+    return UART->S1 & UART_S1_RDRF_MASK;
 }
 
-static inline uint8_t uart1_read_byte() { return (uint8_t)UART1_D; }
+static inline uint8_t uart_read_byte(UART_Type *UART) { return (uint8_t)UART->D; }
 
-static inline void uart1_write_byte(uint8_t byte) {
+static inline void uart_write_byte(UART_Type *UART, uint8_t byte) {
     // Transmit Data Register Empty Flag (TDRE): set when the transmit data buffer is empty
-    UART1_D = byte;
-    while (!(UART1_S1 & UART_S1_TDRE_MASK)) spin(1);
+    while (!(UART->S1 & UART_S1_TDRE_MASK)) asm("nop");
+    UART->D = byte;
 }
 
-static inline void uart1_write_buf(char *buf, size_t len) {
-    while (len-- > 0) uart1_write_byte(*(uint8_t *)buf++);
+static inline void uart_write_buf(UART_Type *UART, char *buf, size_t len) {
+    while (len-- > 0) uart_write_byte(UART, *(uint8_t *)buf++);
 }
 
 int main(void) {
     uint32_t timer = 0;
     systick_init(48000000 / 1000);  // 1ms
-    uart1_init(9600);
+    uart_init(UART_MSG, 9600);      // Buad rate : 9600
 
     // Enable clock for PORTC and PORTB
-    SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK;
+    SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK;
 
     // Set PORTC12, PORTC9, PORTB18, PORTB19 as GPIO
-    PORTC_PCR9 = PORT_PCR_MUX(0x1);
-    PORTC_PCR12 = PORT_PCR_MUX(0x1);
-    PORTB_PCR18 = PORT_PCR_MUX(0x1);
-    PORTB_PCR19 = PORT_PCR_MUX(0x1);
+    PORTC->PCR[12] = PORT_PCR_MUX(0x1);
+
+    PORTC->PCR[9] = PORT_PCR_MUX(0x1);
+    PORTB->PCR[18] = PORT_PCR_MUX(0x1);
+    PORTB->PCR[19] = PORT_PCR_MUX(0x1);
 
     // R
-    GPIOC_PDDR |= BIT(9);
-    GPIOC_PDOR |= BIT(9);
+    GPIOC->PDDR |= BIT(9);
+    GPIOC->PDOR |= BIT(9);
 
     // B
-    GPIOB_PDDR |= BIT(18);
-    GPIOB_PDOR |= BIT(18);
+    GPIOB->PDDR |= BIT(18);
+    GPIOB->PDOR |= BIT(18);
 
     // G
-    GPIOB_PDDR |= BIT(19);
-    GPIOB_PDOR |= BIT(19);
+    GPIOB->PDDR |= BIT(19);
+    GPIOB->PDOR |= BIT(19);
 
     // turn on or off LED
-    GPIOC_PDDR |= BIT(12);
-    GPIOC_PDOR &= ~BIT(12);
+    GPIOC->PDDR |= BIT(12);
+    GPIOC->PDOR |= BIT(12);
 
     for (;;) {
         if (timer_expired(&timer, 100)) {
-            GPIOC_PDOR = ~GPIOC_PDOR;
-            uart1_write_buf("hi\r\n", 4);
+            GPIOC->PDOR = ~GPIOC->PDOR;
+            uart_write_buf(UART_MSG, "hi\r\n", 4);
         }
     }
 }
 
 static void __init_hardware() {
     // Switch off watchdog
-    SIM_COPC = KINETIS_WDOG_DISABLED_CTRL;
+    SIM->OPC = 0x0;
 }
 
 static void zero_fill_bss(void) {

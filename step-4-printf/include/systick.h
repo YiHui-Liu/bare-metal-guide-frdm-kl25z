@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MKL25Z4.h"
+#include "derivative.h"
 #include <stdbool.h>
 
 static inline void spin(volatile uint32_t count) {
@@ -13,11 +13,11 @@ static volatile uint32_t ms_ticks;
 
 static inline void systick_init(uint32_t ticks) {
     if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
-    SYST_RVR = ticks - 1;
-    SYST_CVR = 0;
-    SYST_CSR = SysTick_CSR_ENABLE_MASK        // Enable systick timer
-               | SysTick_CSR_TICKINT_MASK     // Enable interrupt
-               | SysTick_CSR_CLKSOURCE_MASK;  // Use butin-in clock
+    SysTick->LOAD = ticks - 1;
+    SysTick->VAL = 0;
+    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk        // Enable systick timer
+                    | SysTick_CTRL_TICKINT_Msk     // Enable interrupt
+                    | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
 }
 
 // t: expiration time, prd: period Return true if expired

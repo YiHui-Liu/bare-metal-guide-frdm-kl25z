@@ -4,7 +4,7 @@ BUILD_DIR = build
 
 # 变量定义
 TARGET = firmware
-SOURCES = main.c src/startup.c src/syscalls.c
+SOURCES = main.c src/*.c
 
 # 编译选项
 CFLAGS  ?= -W -Wall -Wextra -Werror -Wundef -Wshadow -Wdouble-promotion \

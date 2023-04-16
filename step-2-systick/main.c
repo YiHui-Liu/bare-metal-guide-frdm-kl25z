@@ -3,20 +3,17 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define BIT(x) (1UL << (x))
-#define KINETIS_WDOG_DISABLED_CTRL 0x0
-
 static inline void spin(volatile uint32_t count) {
     while (count--) asm("nop");
 }
 
 static inline void systick_init(uint32_t ticks) {
     if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
-    SYST_RVR = ticks - 1;
-    SYST_CVR = 0;
-    SYST_CSR = SysTick_CSR_ENABLE_MASK        // Enable systick timer
-               | SysTick_CSR_TICKINT_MASK     // Enable interrupt
-               | SysTick_CSR_CLKSOURCE_MASK;  // Use butin-in clock
+    SysTick->LOAD = ticks - 1;
+    SysTick->VAL = 0;
+    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk        // Enable systick timer
+                    | SysTick_CTRL_TICKINT_Msk     // Enable interrupt
+                    | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
 }
 
 static volatile uint32_t ms_ticks;  // volatile is important!!
@@ -36,40 +33,41 @@ int main(void) {
     systick_init(48000000 / 1000);  // 1ms
 
     // Enable clock for PORTC and PORTB
-    SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK;
+    SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK;
 
     // Set PORTC12, PORTC9, PORTB18, PORTB19 as GPIO
-    PORTC_PCR9 = PORT_PCR_MUX(0x1);
-    PORTC_PCR12 = PORT_PCR_MUX(0x1);
-    PORTB_PCR18 = PORT_PCR_MUX(0x1);
-    PORTB_PCR19 = PORT_PCR_MUX(0x1);
+    PORTC->PCR[12] = PORT_PCR_MUX(0x1);
+
+    PORTC->PCR[9] = PORT_PCR_MUX(0x1);
+    PORTB->PCR[18] = PORT_PCR_MUX(0x1);
+    PORTB->PCR[19] = PORT_PCR_MUX(0x1);
 
     // R
-    GPIOC_PDDR |= BIT(9);
-    GPIOC_PDOR |= BIT(9);
+    GPIOC->PDDR |= BIT(9);
+    GPIOC->PDOR |= BIT(9);
 
     // B
-    GPIOB_PDDR |= BIT(18);
-    GPIOB_PDOR |= BIT(18);
+    GPIOB->PDDR |= BIT(18);
+    GPIOB->PDOR |= BIT(18);
 
     // G
-    GPIOB_PDDR |= BIT(19);
-    GPIOB_PDOR |= BIT(19);
+    GPIOB->PDDR |= BIT(19);
+    GPIOB->PDOR |= BIT(19);
 
     // turn on or off LED
-    GPIOC_PDDR |= BIT(12);
-    GPIOC_PDOR &= ~BIT(12);
+    GPIOC->PDDR |= BIT(12);
+    GPIOC->PDOR |= BIT(12);
 
     for (;;) {
         if (timer_expired(&timer, 400)) {
-            GPIOC_PDOR = ~GPIOC_PDOR;
+            GPIOC->PDOR = ~GPIOC->PDOR;
         }
     }
 }
 
 static void __init_hardware() {
     // Switch off watchdog
-    SIM_COPC = KINETIS_WDOG_DISABLED_CTRL;
+    SIM->COPC = 0x0;
 }
 
 static void zero_fill_bss(void) {
