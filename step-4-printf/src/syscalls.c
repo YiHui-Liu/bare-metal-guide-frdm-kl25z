@@ -36,15 +36,23 @@ int _lseek(int fd, int ptr, int dir) {
 }
 
 int _write(int fd, char *ptr, int len) {
-    (void)fd, (void)ptr, (void)len;
-    if (fd == 1) {
-        uart_write_buf(UART1_BASE_PTR, ptr, (size_t)len);
-        return len;
-    }
-    return -1;
+    (void)fd;
+    uart_write_buf(UART1_BASE_PTR, ptr, (size_t)len);
+    return len;
 }
 
-int _read(int fd, char *ptr, int len) {
-    (void)fd, (void)ptr, (void)len;
-    return -1;
+size_t _read(int fd, char *ptr, int len) {
+    (void)fd;
+    size_t cnt = 0;
+    while (len) {
+        while (!uart_read_ready(UART1_BASE_PTR)) asm("nop");
+        *(uint8_t *)ptr = (unsigned char)uart_read_byte(UART1_BASE_PTR);
+        cnt += 1;
+        if (*(uint8_t *)ptr == 0x0d) {
+            *(uint8_t *)ptr = 0x0a;
+            break;
+        }
+        (uint8_t *)ptr++;
+    }
+    return cnt;
 }

@@ -39,9 +39,15 @@ int main(void) {
     GPIOC_PDDR |= BIT(12);
     GPIOC_PDOR |= BIT(12);
 
+    char buffer[64];
+    printf("Hello world!\r\n");
+    printf("Please enter a name:\n\r");
+    scanf("%s", buffer);
+    printf("  I have received: '%s'\r\n", buffer);
+
     uint32_t timer = 0;
     for (;;) {
-        if (timer_expired(&timer, 255)) {
+        if (timer_expired(&timer, 1000)) {
             GPIOC_PDOR = ~GPIOC_PDOR;
             printf("LED: %d, tick: %lu\r\n", GPIOC_PDOR & BIT(12) ? 1 : 0, ms_ticks);
         }
