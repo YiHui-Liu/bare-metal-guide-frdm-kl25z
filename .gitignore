@@ -1,1 +1,5 @@
+# settings
 .vscode/
+
+# build cache
+*/build/
