@@ -57,7 +57,7 @@ static inline void uart_init(UART_Type *UART, unsigned long baud) {
     unsigned short sbr = (unsigned short)(BUSCLK / (baud * 16));
 
     // UARTx_BDH bits 0~4 is the high 5 bits of SBR (band rate)
-    UART->BDH |= (sbr & UART_BDH_SBR_MASK << 8) >> 8;
+    UART->BDH |= (sbr & (uint8_t)(UART_BDH_SBR_MASK << 8)) >> 8;
     // UARTx_BLH is the low 8 bits of SBR (band rate)
     UART->BDL = sbr & UART_BDL_SBR_MASK;
     // Enable receiver and transmitter

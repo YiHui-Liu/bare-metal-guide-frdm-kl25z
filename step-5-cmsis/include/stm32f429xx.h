@@ -1396,8 +1396,9 @@ typedef struct {
 #define ADC_CR2_EXTSEL_3 (0x8UL << ADC_CR2_EXTSEL_Pos) /*!< 0x08000000 */
 #define ADC_CR2_EXTEN_Pos (28U)
 #define ADC_CR2_EXTEN_Msk (0x3UL << ADC_CR2_EXTEN_Pos) /*!< 0x30000000 */
-#define ADC_CR2_EXTEN ADC_CR2_EXTEN_Msk /*!<EXTEN[1:0] bits (External Trigger Conversion mode for regular channelsp) \
-                                         */
+#define ADC_CR2_EXTEN                                                                              \
+    ADC_CR2_EXTEN_Msk /*!<EXTEN[1:0] bits (External Trigger Conversion mode for regular channelsp) \
+                       */
 #define ADC_CR2_EXTEN_0 (0x1UL << ADC_CR2_EXTEN_Pos) /*!< 0x10000000 */
 #define ADC_CR2_EXTEN_1 (0x2UL << ADC_CR2_EXTEN_Pos) /*!< 0x20000000 */
 #define ADC_CR2_SWSTART_Pos (30U)
@@ -12873,8 +12874,9 @@ typedef struct {
 #define SDIO_MASK_SDIOITIE SDIO_MASK_SDIOITIE_Msk                /*!<SDIO Mode Interrupt Received interrupt Enable */
 #define SDIO_MASK_CEATAENDIE_Pos (23U)
 #define SDIO_MASK_CEATAENDIE_Msk (0x1UL << SDIO_MASK_CEATAENDIE_Pos) /*!< 0x00800000 */
-#define SDIO_MASK_CEATAENDIE SDIO_MASK_CEATAENDIE_Msk /*!<CE-ATA command completion signal received Interrupt Enable \
-                                                       */
+#define SDIO_MASK_CEATAENDIE                                                                \
+    SDIO_MASK_CEATAENDIE_Msk /*!<CE-ATA command completion signal received Interrupt Enable \
+                              */
 
 /*****************  Bit definition for SDIO_FIFOCNT register  *****************/
 #define SDIO_FIFOCNT_FIFOCOUNT_Pos (0U)
@@ -14817,8 +14819,9 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
     ETH_MMCTIR_TGFMSCS_Msk /* Set when Tx good multi col counter reaches half the maximum value */
 #define ETH_MMCTIR_TGFSCS_Pos (14U)
 #define ETH_MMCTIR_TGFSCS_Msk (0x1UL << ETH_MMCTIR_TGFSCS_Pos) /*!< 0x00004000 */
-#define ETH_MMCTIR_TGFSCS ETH_MMCTIR_TGFSCS_Msk /* Set when Tx good single col counter reaches half the maximum value \
-                                                 */
+#define ETH_MMCTIR_TGFSCS                                                                       \
+    ETH_MMCTIR_TGFSCS_Msk /* Set when Tx good single col counter reaches half the maximum value \
+                           */
 
 /* Bit definition for Ethernet MMC Receive Interrupt Mask Register */
 #define ETH_MMCRIMR_RGUFM_Pos (17U)
@@ -14907,8 +14910,9 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
 #define ETH_PTPTSCR_TSSIPV6FE ETH_PTPTSCR_TSSIPV6FE_Msk                /* Time stamp snapshot for IPv6 frames enable */
 #define ETH_PTPTSCR_TSSPTPOEFE_Pos (11U)
 #define ETH_PTPTSCR_TSSPTPOEFE_Msk (0x1UL << ETH_PTPTSCR_TSSPTPOEFE_Pos) /*!< 0x00000800 */
-#define ETH_PTPTSCR_TSSPTPOEFE ETH_PTPTSCR_TSSPTPOEFE_Msk /* Time stamp snapshot for PTP over ethernet frames enable \
-                                                           */
+#define ETH_PTPTSCR_TSSPTPOEFE                                                            \
+    ETH_PTPTSCR_TSSPTPOEFE_Msk /* Time stamp snapshot for PTP over ethernet frames enable \
+                                */
 #define ETH_PTPTSCR_TSPTPPSV2E_Pos (10U)
 #define ETH_PTPTSCR_TSPTPPSV2E_Msk (0x1UL << ETH_PTPTSCR_TSPTPPSV2E_Pos) /*!< 0x00000400 */
 #define ETH_PTPTSCR_TSPTPPSV2E \
@@ -15013,14 +15017,16 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
 #define ETH_DMABMR_RDP_Pos (17U)
 #define ETH_DMABMR_RDP_Msk (0x3FUL << ETH_DMABMR_RDP_Pos) /*!< 0x007E0000 */
 #define ETH_DMABMR_RDP ETH_DMABMR_RDP_Msk                 /* RxDMA PBL */
-#define ETH_DMABMR_RDP_1Beat 0x00020000U  /* maximum number of beats to be transferred in one RxDMA transaction is 1 */
-#define ETH_DMABMR_RDP_2Beat 0x00040000U  /* maximum number of beats to be transferred in one RxDMA transaction is 2 */
-#define ETH_DMABMR_RDP_4Beat 0x00080000U  /* maximum number of beats to be transferred in one RxDMA transaction is 4 */
-#define ETH_DMABMR_RDP_8Beat 0x00100000U  /* maximum number of beats to be transferred in one RxDMA transaction is 8 */
-#define ETH_DMABMR_RDP_16Beat 0x00200000U /* maximum number of beats to be transferred in one RxDMA transaction is 16 \
-                                           */
-#define ETH_DMABMR_RDP_32Beat 0x00400000U /* maximum number of beats to be transferred in one RxDMA transaction is 32 \
-                                           */
+#define ETH_DMABMR_RDP_1Beat 0x00020000U /* maximum number of beats to be transferred in one RxDMA transaction is 1 */
+#define ETH_DMABMR_RDP_2Beat 0x00040000U /* maximum number of beats to be transferred in one RxDMA transaction is 2 */
+#define ETH_DMABMR_RDP_4Beat 0x00080000U /* maximum number of beats to be transferred in one RxDMA transaction is 4 */
+#define ETH_DMABMR_RDP_8Beat 0x00100000U /* maximum number of beats to be transferred in one RxDMA transaction is 8 */
+#define ETH_DMABMR_RDP_16Beat                                                               \
+    0x00200000U /* maximum number of beats to be transferred in one RxDMA transaction is 16 \
+                 */
+#define ETH_DMABMR_RDP_32Beat                                                               \
+    0x00400000U /* maximum number of beats to be transferred in one RxDMA transaction is 32 \
+                 */
 #define ETH_DMABMR_RDP_4xPBL_4Beat \
     0x01020000U /* maximum number of beats to be transferred in one RxDMA transaction is 4 */
 #define ETH_DMABMR_RDP_4xPBL_8Beat \
@@ -15768,7 +15774,7 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
 #define USB_OTG_GINTSTS_GINAKEFF USB_OTG_GINTSTS_GINAKEFF_Msk /*!< Global IN nonperiodic NAK effective            */
 #define USB_OTG_GINTSTS_BOUTNAKEFF_Pos (7U)
 #define USB_OTG_GINTSTS_BOUTNAKEFF_Msk (0x1UL << USB_OTG_GINTSTS_BOUTNAKEFF_Pos) /*!< 0x00000080 */
-#define USB_OTG_GINTSTS_BOUTNAKEFF USB_OTG_GINTSTS_BOUTNAKEFF_Msk                /*!< Global OUT NAK effective                */
+#define USB_OTG_GINTSTS_BOUTNAKEFF USB_OTG_GINTSTS_BOUTNAKEFF_Msk /*!< Global OUT NAK effective                */
 #define USB_OTG_GINTSTS_ESUSP_Pos (10U)
 #define USB_OTG_GINTSTS_ESUSP_Msk (0x1UL << USB_OTG_GINTSTS_ESUSP_Pos) /*!< 0x00000400 */
 #define USB_OTG_GINTSTS_ESUSP USB_OTG_GINTSTS_ESUSP_Msk /*!< Early suspend                                  */
@@ -15837,10 +15843,10 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
 #define USB_OTG_GINTMSK_SOFM USB_OTG_GINTMSK_SOFM_Msk /*!< Start of frame mask                                 */
 #define USB_OTG_GINTMSK_RXFLVLM_Pos (4U)
 #define USB_OTG_GINTMSK_RXFLVLM_Msk (0x1UL << USB_OTG_GINTMSK_RXFLVLM_Pos) /*!< 0x00000010 */
-#define USB_OTG_GINTMSK_RXFLVLM USB_OTG_GINTMSK_RXFLVLM_Msk                /*!< Receive FIFO nonempty mask                */
+#define USB_OTG_GINTMSK_RXFLVLM USB_OTG_GINTMSK_RXFLVLM_Msk /*!< Receive FIFO nonempty mask                */
 #define USB_OTG_GINTMSK_NPTXFEM_Pos (5U)
 #define USB_OTG_GINTMSK_NPTXFEM_Msk (0x1UL << USB_OTG_GINTMSK_NPTXFEM_Pos) /*!< 0x00000020 */
-#define USB_OTG_GINTMSK_NPTXFEM USB_OTG_GINTMSK_NPTXFEM_Msk                /*!< Nonperiodic TxFIFO empty mask                */
+#define USB_OTG_GINTMSK_NPTXFEM USB_OTG_GINTMSK_NPTXFEM_Msk /*!< Nonperiodic TxFIFO empty mask                */
 #define USB_OTG_GINTMSK_GINAKEFFM_Pos (6U)
 #define USB_OTG_GINTMSK_GINAKEFFM_Msk (0x1UL << USB_OTG_GINTMSK_GINAKEFFM_Pos) /*!< 0x00000040 */
 #define USB_OTG_GINTMSK_GINAKEFFM \
@@ -15905,7 +15911,7 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
     USB_OTG_GINTMSK_CIDSCHGM_Msk /*!< Connector ID status change mask                     */
 #define USB_OTG_GINTMSK_DISCINT_Pos (29U)
 #define USB_OTG_GINTMSK_DISCINT_Msk (0x1UL << USB_OTG_GINTMSK_DISCINT_Pos) /*!< 0x20000000 */
-#define USB_OTG_GINTMSK_DISCINT USB_OTG_GINTMSK_DISCINT_Msk                /*!< Disconnect detected interrupt mask                */
+#define USB_OTG_GINTMSK_DISCINT USB_OTG_GINTMSK_DISCINT_Msk /*!< Disconnect detected interrupt mask                */
 #define USB_OTG_GINTMSK_SRQIM_Pos (30U)
 #define USB_OTG_GINTMSK_SRQIM_Msk (0x1UL << USB_OTG_GINTMSK_SRQIM_Pos) /*!< 0x40000000 */
 #define USB_OTG_GINTMSK_SRQIM USB_OTG_GINTMSK_SRQIM_Msk /*!< Session request/new session detected interrupt mask */
@@ -16009,8 +16015,9 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
 /********************  Bit definition for USB_OTG_DTHRCTL register  ********************/
 #define USB_OTG_DTHRCTL_NONISOTHREN_Pos (0U)
 #define USB_OTG_DTHRCTL_NONISOTHREN_Msk (0x1UL << USB_OTG_DTHRCTL_NONISOTHREN_Pos) /*!< 0x00000001 */
-#define USB_OTG_DTHRCTL_NONISOTHREN USB_OTG_DTHRCTL_NONISOTHREN_Msk /*!< Nonisochronous IN endpoints threshold enable \
-                                                                     */
+#define USB_OTG_DTHRCTL_NONISOTHREN                                                   \
+    USB_OTG_DTHRCTL_NONISOTHREN_Msk /*!< Nonisochronous IN endpoints threshold enable \
+                                     */
 #define USB_OTG_DTHRCTL_ISOTHREN_Pos (1U)
 #define USB_OTG_DTHRCTL_ISOTHREN_Msk (0x1UL << USB_OTG_DTHRCTL_ISOTHREN_Pos) /*!< 0x00000002 */
 #define USB_OTG_DTHRCTL_ISOTHREN USB_OTG_DTHRCTL_ISOTHREN_Msk                /*!< ISO IN endpoint threshold enable */
@@ -16105,8 +16112,9 @@ a transmission attempt during retries after a collision: 0 =< r <2^k */
     USB_OTG_DIEPEACHMSK1_EPDM_Msk /*!< Endpoint disabled interrupt mask                  */
 #define USB_OTG_DIEPEACHMSK1_TOM_Pos (3U)
 #define USB_OTG_DIEPEACHMSK1_TOM_Msk (0x1UL << USB_OTG_DIEPEACHMSK1_TOM_Pos) /*!< 0x00000008 */
-#define USB_OTG_DIEPEACHMSK1_TOM USB_OTG_DIEPEACHMSK1_TOM_Msk /*!< Timeout condition mask (nonisochronous endpoints) \
-                                                               */
+#define USB_OTG_DIEPEACHMSK1_TOM                                                        \
+    USB_OTG_DIEPEACHMSK1_TOM_Msk /*!< Timeout condition mask (nonisochronous endpoints) \
+                                  */
 #define USB_OTG_DIEPEACHMSK1_ITTXFEMSK_Pos (4U)
 #define USB_OTG_DIEPEACHMSK1_ITTXFEMSK_Msk (0x1UL << USB_OTG_DIEPEACHMSK1_ITTXFEMSK_Pos) /*!< 0x00000010 */
 #define USB_OTG_DIEPEACHMSK1_ITTXFEMSK \
