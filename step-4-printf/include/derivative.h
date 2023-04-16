@@ -7,7 +7,6 @@
 
 #define UART_MSG UART1
 
-#define PI 3.1415926
 #define BIT(x) (1UL << (x))
 
 extern uint32_t CORCLK;

@@ -1,4 +1,4 @@
-#include "MKL25Z4.h"
+#include "derivative.h"
 #include <inttypes.h>
 #include <stdbool.h>
 #include <string.h>
@@ -16,7 +16,6 @@ static inline void systick_init(uint32_t ticks) {
                     | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
 }
 
-static volatile uint32_t ms_ticks;  // volatile is important!!
 void SysTick_Handler(void) { ms_ticks++; }
 
 // t: expiration time, prd: period Return true if expired

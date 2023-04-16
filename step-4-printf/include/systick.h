@@ -3,13 +3,12 @@
 #include "derivative.h"
 #include <stdbool.h>
 
+extern volatile uint32_t ms_ticks;
+
 static inline void spin(volatile uint32_t count) {
     if (count == 0) return;
     while (count--) asm("nop");
 }
-
-// ms count, volatile is important!!
-static volatile uint32_t ms_ticks;
 
 static inline void systick_init(uint32_t ticks) {
     if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
