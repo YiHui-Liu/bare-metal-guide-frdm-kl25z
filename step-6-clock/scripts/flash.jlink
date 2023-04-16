@@ -1,0 +1,5 @@
+r
+unlock Kinetis
+loadbin build/firmware.bin, 0x0
+r
+q

@@ -1,26 +1,46 @@
-CFLAGS  ?=  -W -Wall -Wextra -Werror -Wundef -Wshadow -Wdouble-promotion \
-            -Wformat-truncation -fno-common -Wconversion \
-            -g3 -Os -ffunction-sections -fdata-sections -I. -Iinclude \
-            -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 $(EXTRA_CFLAGS)
-LDFLAGS ?= -Tlink.ld -nostartfiles -nostdlib --specs nano.specs -lc -lgcc -Wl,--gc-sections -Wl,-Map=$@.map
-SOURCES = main.c startup.c syscalls.c
+# 目录定义
+DEPS_DIR = scripts
+BUILD_DIR = build
 
+# 变量定义
+TARGET = firmware
+SOURCES = main.c src/*.c
+
+# 编译选项
+CFLAGS  ?= -W -Wall -Wextra -Werror -Wundef -Wshadow -Wdouble-promotion \
+           -Wformat-truncation -fno-common -Wconversion \
+           -g3 -Og -ffunction-sections -fdata-sections \
+		   -Iinclude -mcpu=cortex-m0plus -mthumb -lm $(EXTRA_CFLAGS)
+LDFLAGS ?= -T $(DEPS_DIR)/link.ld -nostartfiles -nostdlib --specs nano.specs  \
+		   -lc -lgcc -Wl,--gc-sections -Wl,-Map=$(BUILD_DIR)/$(TARGET).$@.map
+
+# 命令定义
 ifeq ($(OS),Windows_NT)
   RM = cmd /C del /Q /F
 else
   RM = rm -f
 endif
 
-build: firmware.bin
+# 目录创建
+$(shell if [ ! -e $(DEPS_DIR) ];then mkdir -p $(DEPS_DIR); fi)
+$(shell if [ ! -e $(BUILD_DIR) ];then mkdir -p $(BUILD_DIR); fi)
 
-firmware.elf: $(SOURCES)
-	arm-none-eabi-gcc $(SOURCES) $(CFLAGS) $(LDFLAGS) -o $@
+build: bin
 
-firmware.bin: firmware.elf
-	arm-none-eabi-objcopy -O binary $< $@
+elf: $(SOURCES)
+	arm-none-eabi-gcc $(SOURCES) $(CFLAGS) $(LDFLAGS) -o $(BUILD_DIR)/$(TARGET).elf
 
-flash: firmware.bin
-	st-flash --reset write $< 0x8000000
+bin: elf
+	arm-none-eabi-objcopy -O binary $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).bin
+
+flash: bin
+	JLinkExe -device MKL25Z128XXX4 -if SWD -speed 4000 -autoconnect 1 -CommanderScript $(DEPS_DIR)/flash.jlink
+
+disassembly: elf
+	arm-none-eabi-objdump -D -S $(BUILD_DIR)/$(TARGET).elf > $(BUILD_DIR)/$(TARGET).S
+
+disassembly-none: elf
+	arm-none-eabi-objdump -D $(BUILD_DIR)/$(TARGET).elf > $(BUILD_DIR)/$(TARGET).S
 
 clean:
-	$(RM) firmware.*
+	$(RM) $(BUILD_DIR)/$(TARGET).*
