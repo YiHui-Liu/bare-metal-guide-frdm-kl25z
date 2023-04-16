@@ -33,14 +33,13 @@ SECTIONS {
         *(.data SORT(.data.*))
         _edata = .; /* end of .data section */
     } > sram AT > flash
-    _sidata = LOADADDR(.data); /* load address of .data section */
-
+    _sidata = LOADADDR(.data);
+    
     .bss : {
         _sbss = .; /* start of .bss section */
         *(.bss SORT(.bss.*) COMMON)
         _ebss = .; /* end of .bss section */
     } > sram
 
-    . = ALIGN(8);
     _end = .;
 }

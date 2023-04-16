@@ -1,26 +1,42 @@
+# 目录定义
+DEPS_DIR = scripts
+BUILD_DIR = build
+
+# 变量定义
+TARGET = firmware
+SOURCES = main.c src/startup.c src/syscalls.c
+
+# 编译选项
 CFLAGS  ?= -W -Wall -Wextra -Werror -Wundef -Wshadow -Wdouble-promotion \
            -Wformat-truncation -fno-common -Wconversion \
            -g3 -Og -ffunction-sections -fdata-sections \
-		   -Iinclude -mcpu=cortex-m0plus -mthumb $(EXTRA_CFLAGS)
-LDFLAGS ?= -Tscripts/link.ld -nostartfiles -nostdlib --specs nano.specs -lc -lgcc -Wl,--gc-sections -Wl,-Map=build/$@.map
-SOURCES = main.c
+		   -Iinclude -mcpu=cortex-m0plus -mthumb -lm $(EXTRA_CFLAGS)
+LDFLAGS ?= -T $(DEPS_DIR)/link.ld -nostartfiles -nostdlib --specs nano.specs  \
+		   -lc -lgcc -Wl,--gc-sections -Wl,-Map=$(BUILD_DIR)/$(TARGET).$@.map
 
+# 命令定义
 ifeq ($(OS),Windows_NT)
   RM = cmd /C del /Q /F
 else
   RM = rm -f
 endif
 
-build: firmware.bin
+build: bin
 
-firmware.elf: $(SOURCES)
-	arm-none-eabi-gcc $(SOURCES) $(CFLAGS) $(LDFLAGS) -o build/$@
+elf: $(SOURCES)
+	arm-none-eabi-gcc $(SOURCES) $(CFLAGS) $(LDFLAGS) -o $(BUILD_DIR)/$(TARGET).elf
 
-firmware.bin: firmware.elf
-	arm-none-eabi-objcopy -O binary build/$< build/$@
+bin: elf
+	arm-none-eabi-objcopy -O binary $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).bin
 
-flash: firmware.bin
-	JLinkExe -device MKL25Z128XXX4 -if SWD -speed 4000 -autoconnect 1 -CommanderScript scripts/flash.jlink
+flash: bin
+	JLinkExe -device MKL25Z128XXX4 -if SWD -speed 4000 -autoconnect 1 -CommanderScript $(DEPS_DIR)/flash.jlink
+
+disassembly: elf
+	arm-none-eabi-objdump -D -S $(BUILD_DIR)/$(TARGET).elf > $(BUILD_DIR)/$(TARGET).S
+
+disassembly-none: elf
+	arm-none-eabi-objdump -D $(BUILD_DIR)/$(TARGET).elf > $(BUILD_DIR)/$(TARGET).S
 
 clean:
-	$(RM) build/firmware.*
+	$(RM) $(BUILD_DIR)/$(TARGET).*

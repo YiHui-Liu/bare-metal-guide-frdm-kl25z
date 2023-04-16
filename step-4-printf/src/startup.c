@@ -14,7 +14,7 @@ __attribute__((naked, noreturn)) void _reset(void) {
 
     extern long _sbss, _ebss, _sdata, _edata, _sidata;
     for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
-    for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++) *src = *dst;
+    for (long *src = &_sdata, *dst = &_sidata; src < &_edata;) *src++ = *dst++;
 
     main();
     for (;;) (void)0;
@@ -24,6 +24,8 @@ __attribute__((naked, noreturn)) void _reset(void) {
 extern void _estack(void);          // Defined in link.ld
 extern void SysTick_Handler(void);  // Defined in main.c
 
+void Default_Handler() { __asm("bkpt"); }
+
 /*
     Set tab (the vector table) in the section ".vectors"
     and the size of the vector table is 16 + 32
@@ -31,7 +33,24 @@ extern void SysTick_Handler(void);  // Defined in main.c
     the first one is the initial stack pointer
     the second one is the initial program counter
 */
-__attribute__((section(".vectors"))) void (*tab[16 + 32])(void) = {_estack, _reset, 0, 0, 0, 0, 0, 0,
-                                                                   0,       0,      0, 0, 0, 0, 0, SysTick_Handler};
+
+__attribute__((section(".vectors"))) void (*tab[16 + 32])(void) = {
+    _estack,          // Initial stack pointer
+    _reset,           // Reset handler
+    Default_Handler,  // NMI handler
+    Default_Handler,  // Hard Fault handler
+    0,                // Reserved
+    0,                // Reserved
+    0,                // Reserved
+    0,                // Reserved
+    0,                // Reserved
+    0,                // Reserved
+    0,                // Reserved
+    Default_Handler,  // SVC handler
+    0,                // Reserved
+    0,                // Reserved
+    Default_Handler,  // PendSV handler
+    SysTick_Handler   // SysTick handler
+};
 
 __attribute__((section(".cfmconfig"))) uint32_t(cfm[4]) = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFE};
