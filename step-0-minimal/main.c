@@ -1,3 +1,5 @@
+#include <inttypes.h>
+
 int main(void) { return 0; }
 
 __attribute__((naked, noreturn)) void _reset(void) {
