@@ -1,6 +1,7 @@
 #include "MKL25Z4.h"
 #include <inttypes.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define BIT(x) (1UL << (x))
 #define KINETIS_WDOG_DISABLED_CTRL 0x0
@@ -66,17 +67,28 @@ int main(void) {
     }
 }
 
-void __init_hardware() {
+static void __init_hardware() {
     // Switch off watchdog
     SIM_COPC = KINETIS_WDOG_DISABLED_CTRL;
 }
 
+static void zero_fill_bss(void) {
+    extern char _sbss[];
+    extern char _ebss[];
+    memset(_sbss, 0, (size_t)(_ebss - _sbss));
+}
+
+static void copy_data(void) {
+    extern char _sdata[];
+    extern char _edata[];
+    extern char _sidata[];
+    memcpy(_sdata, _sidata, (size_t)(_edata - _sdata));
+}
+
 __attribute__((naked, noreturn)) void _reset(void) {
     __init_hardware();
-
-    extern long _sbss, _ebss, _sdata, _edata, _sidata;
-    for (long *src = &_sbss; src < &_ebss; src++) *src = 0;
-    for (long *src = &_sdata, *dst = &_sidata; src < &_edata; src++, dst++) *src = *dst;
+    zero_fill_bss();
+    copy_data();
 
     main();
     for (;;) (void)0;
