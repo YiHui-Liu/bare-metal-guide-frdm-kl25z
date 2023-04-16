@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern volatile uint32_t ms_ticks;
+extern void SysTick_Handler(void);
+
 static inline void spin(volatile uint32_t count) {
     while (count--) asm("nop");
 }
@@ -16,8 +19,6 @@ static inline void systick_init(uint32_t ticks) {
                     | SysTick_CTRL_TICKINT_Msk     // Enable interrupt
                     | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
 }
-
-void SysTick_Handler(void) { ms_ticks++; }
 
 // t: expiration time, prd: period Return true if expired
 bool timer_expired(uint32_t *t, uint32_t prd) {
@@ -123,7 +124,7 @@ int main(void) {
 
 static void __init_hardware() {
     // Switch off watchdog
-    SIM->OPC = 0x0;
+    SIM->COPC = 0x0;
 }
 
 static void zero_fill_bss(void) {

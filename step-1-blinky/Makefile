@@ -21,6 +21,10 @@ else
   RM = rm -f
 endif
 
+# 目录创建
+$(shell if [ ! -e $(DEPS_DIR) ];then mkdir -p $(DEPS_DIR); fi)
+$(shell if [ ! -e $(BUILD_DIR) ];then mkdir -p $(BUILD_DIR); fi)
+
 build: bin
 
 elf: $(SOURCES)
