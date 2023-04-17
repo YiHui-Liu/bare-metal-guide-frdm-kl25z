@@ -140,6 +140,9 @@ static void clock_init(void) {
 
         OUTDIV1: Clock 1 Output Divider, bits 28-31 of SIM_CLKDIV1
         value from 0b0000 to 0b1111, divide factor from 1 to 16
+
+        OUTDIV4: Clock 4 Output Divider, bits 16-18 of SIM_CLKDIV1
+        value from 0b000 to 0b111, divide factor from 1 to 8, default 0b001 (2)
     */
     if ((MCG->C1 & MCG_C1_CLKS_MASK) == 0x00U) {
         if ((MCG->C6 & MCG_C6_PLLS_MASK) == 0x00U)
@@ -153,6 +156,8 @@ static void clock_init(void) {
 
     CORCLK = (MCGOUTClock / (0x01U + ((SIM->CLKDIV1 & SIM_CLKDIV1_OUTDIV1_MASK) >> SIM_CLKDIV1_OUTDIV1_SHIFT)));
     CORCLK = (uint32_t)(CORCLK / 1000U) * 1000U;
+    BUSCLK = CORCLK / (0x01U + ((SIM->CLKDIV1 & SIM_CLKDIV1_OUTDIV4_MASK) >> SIM_CLKDIV1_OUTDIV4_SHIFT));
+    BUSCLK = (uint32_t)(BUSCLK / 1000U) * 1000U;
 }
 
 __attribute__((naked, noreturn)) void _reset(void) {

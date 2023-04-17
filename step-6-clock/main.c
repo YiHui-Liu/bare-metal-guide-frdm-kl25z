@@ -34,14 +34,15 @@ int main(void) {
     GPIOC->PDDR |= BIT(12);
     GPIOC->PDOR |= BIT(12);
 
-    printf("Hello world!\r\n");
-    printf("Clock: %lu\r\n", CORCLK);
+    uart_printf(UART_MSG, "Hello world!\r\n");
+    uart_printf(UART_MSG, "System Clock: %lu\r\n", CORCLK);
+    uart_printf(UART_MSG, "Bus Clock: %lu\r\n", BUSCLK);
 
     uint32_t timer = 0;
     for (;;) {
         if (timer_expired(&timer, 1000)) {
             GPIOC->PDOR = ~GPIOC->PDOR;
-            printf("LED: %d, tick: %lu\r\n", GPIOC->PDOR & BIT(12) ? 1 : 0, ms_ticks);
+            uart_printf(UART_MSG, "LED: %d, tick: %lu\r\n", GPIOC->PDOR & BIT(12) ? 1 : 0, ms_ticks);
         }
     }
 }
