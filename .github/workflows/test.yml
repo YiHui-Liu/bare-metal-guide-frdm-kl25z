@@ -12,7 +12,7 @@ jobs:
     - run: make -C step-2-systick
     - run: make -C step-3-uart
     - run: make -C step-4-printf
-    - run: make -C step-5-cmsis
+    - run: make -C step-5-format
     - run: make -C step-6-clock
   macos:
     runs-on: macos-latest
@@ -24,5 +24,5 @@ jobs:
     - run: make -C step-2-systick
     - run: make -C step-3-uart
     - run: make -C step-4-printf
-    - run: make -C step-5-cmsis
+    - run: make -C step-5-format
     - run: make -C step-6-clock

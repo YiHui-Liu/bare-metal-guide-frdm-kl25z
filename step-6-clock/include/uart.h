@@ -2,8 +2,9 @@
 
 #include "derivative.h"
 #include "systick.h"
+#include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 static inline void uart_init(UART_Type *UART, unsigned long baud) {
     // Enable clock for UART and PORT, then set RXD, TXD
@@ -15,10 +16,10 @@ static inline void uart_init(UART_Type *UART, unsigned long baud) {
         PORTC->PCR[4] = PORT_PCR_MUX(0x3);
     } else if (UART == UART2) {
         SIM->SCGC4 |= SIM_SCGC4_UART2_MASK;
-        SIM->SCGC5 |= SIM_SCGC5_PORTD_MASK;
+        SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK;
 
-        PORTD->PCR[2] = PORT_PCR_MUX(0x3);
-        PORTD->PCR[3] = PORT_PCR_MUX(0x3);
+        PORTE->PCR[23] = PORT_PCR_MUX(0x3);
+        PORTE->PCR[22] = PORT_PCR_MUX(0x3);
     } else
         return;
 
@@ -28,7 +29,6 @@ static inline void uart_init(UART_Type *UART, unsigned long baud) {
     // default settings, no parity, so entire register is cleared
     UART->C1 = 0x00;
 
-    // UART use the bus-rate clock(BUSCLK)
     // Buad = BUSCLK / (16 * SBR)
     unsigned short sbr = (unsigned short)(BUSCLK / (baud * 16));
 
@@ -57,4 +57,28 @@ static inline void uart_write_byte(UART_Type *UART, uint8_t byte) {
 
 static inline void uart_write_buf(UART_Type *UART, char *buf, size_t len) {
     while (len-- > 0) uart_write_byte(UART, *(uint8_t *)buf++);
+}
+
+static inline void uart_printf(UART_Type *UART, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    char buf[64];
+    vsprintf(buf, format, args);
+    uart_write_buf(UART, buf, strlen(buf));
+    va_end(args);
+}
+
+static inline size_t uart_getline(UART_Type *UART, char *buf) {
+    size_t cnt = 0;
+    while (1) {
+        while (!uart_read_ready(UART)) asm("nop");
+        *(uint8_t *)buf = (unsigned char)uart_read_byte(UART);
+        cnt += 1;
+        if (*(uint8_t *)buf == 0x0d) {
+            *(uint8_t *)buf = 0x0a;
+            break;
+        }
+        (uint8_t *)buf++;
+    }
+    return cnt;
 }
