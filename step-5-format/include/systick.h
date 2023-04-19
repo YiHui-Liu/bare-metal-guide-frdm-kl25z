@@ -6,20 +6,10 @@
 extern volatile uint32_t ms_ticks;
 
 static inline void spin(volatile uint32_t count) {
-    if (count == 0) return;
     while (count--) asm("nop");
 }
 
-static inline void systick_init(uint32_t ticks) {
-    if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
-    SysTick->LOAD = ticks - 1;
-    SysTick->VAL = 0;
-    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk        // Enable systick timer
-                    | SysTick_CTRL_TICKINT_Msk     // Enable interrupt
-                    | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
-}
-
-// t: expiration time, prd: period Return true if expired
+// t: expiration time, prd: period
 static inline bool timer_expired(uint32_t *t, uint32_t prd) {
     if (ms_ticks + prd < *t) *t = 0;                         // Time wrapped? Reset timer
     if (*t == 0) *t = ms_ticks + prd;                        // First poll? Set expiration

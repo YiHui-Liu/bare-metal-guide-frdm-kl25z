@@ -5,8 +5,8 @@
 
 int main(void) {
     // Initialize
-    systick_init(CORCLK / 1000);  // Period of systick timer : 1ms
-    uart_init(UART_MSG, 9600);    // Buad rate : 9600
+    SysTick_Config(CORCLK / 1000);  // Period of systick timer : 1ms
+    uart_init(UART_MSG, 9600);      // Buad rate : 9600
 
     // Enable clock for PORTC and PORTB
     SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK;

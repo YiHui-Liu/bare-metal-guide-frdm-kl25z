@@ -14,6 +14,7 @@ jobs:
     - run: make -C step-4-printf
     - run: make -C step-5-format
     - run: make -C step-6-clock
+    - run: make -C step-7-interrupt
   macos:
     runs-on: macos-latest
     steps:
@@ -26,3 +27,4 @@ jobs:
     - run: make -C step-4-printf
     - run: make -C step-5-format
     - run: make -C step-6-clock
+    - run: make -C step-7-interrupt

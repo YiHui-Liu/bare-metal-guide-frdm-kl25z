@@ -11,15 +11,6 @@ static inline void spin(volatile uint32_t count) {
     while (count--) asm("nop");
 }
 
-static inline void systick_init(uint32_t ticks) {
-    if ((ticks - 1) > 0xffffff) return;  // Systick timer is 24 bit
-    SysTick->LOAD = ticks - 1;
-    SysTick->VAL = 0;
-    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk        // Enable systick timer
-                    | SysTick_CTRL_TICKINT_Msk     // Enable interrupt
-                    | SysTick_CTRL_CLKSOURCE_Msk;  // Use butin-in clock
-}
-
 // t: expiration time, prd: period Return true if expired
 bool timer_expired(uint32_t *t, uint32_t prd) {
     if (ms_ticks + prd < *t) *t = 0;                         // Time wrapped? Reset timer
@@ -85,8 +76,8 @@ static inline void uart_write_buf(UART_Type *UART, char *buf, size_t len) {
 
 int main(void) {
     uint32_t timer = 0;
-    systick_init(48000000 / 1000);  // 1ms
-    uart_init(UART_MSG, 9600);      // Buad rate : 9600
+    SysTick_Config(48000000 / 1000);  // 1ms
+    uart_init(UART_MSG, 9600);        // Buad rate : 9600
 
     // Enable clock for PORTC and PORTB
     SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK;
