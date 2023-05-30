@@ -6,19 +6,19 @@
 
 现在，运行Ozone，在向导中选择设备：
 
-<img src="images/ozone1.png" width="50%" />
+<img src="../images/ozone1.png" width="50%" />
 
 选择我们要用的调试器硬件：
 
-<img src="images/ozone2.png" width="50%" />
+<img src="../images/ozone2.png" width="50%" />
 
 然后选择 `firmware.elf` 固件文件：
 
-<img src="images/ozone3.png" width="50%" />
+<img src="../images/ozone3.png" width="50%" />
 
 接下来的步骤保持默认，点击“完成”，调试器已经载入（可以看到`mcu.h`源码被拾取）：
 
-<img src="images/ozone3.png" width="50%" />
+<img src="../images/ozone3.png" width="50%" />
 
 点击左上角的绿色按钮，下载、运行固件，然后会停在这里：
 
@@ -31,12 +31,12 @@
 我们可以用它直接检查或设置外设的状态，例如，点亮板子上的绿色LED（PB0）：
 
 1. 先使能GPIOB时钟，找到  Peripherals -> RCC -> AHB1ENR，然后把 GPIOBEN 位设为1：
-  <img src="images/ozone7.png" width="75%" />
+  <img src="../images/ozone7.png" width="75%" />
 
 2. 找到 Peripherals -> GPIO -> GPIOB -> MODER，设置 MODER0 为1（输出）：
-  <img src="images/ozone8.png" width="75%" />
+  <img src="../images/ozone8.png" width="75%" />
 
 3. 找到 Peripherals -> GPIO -> GPIOB -> ODR，设置 ODR0 为1（高电平）：
-  <img src="images/ozone9.png" width="75%" />
+  <img src="../images/ozone9.png" width="75%" />
 
 这样绿色LED就被点亮了。愉快地调试吧！

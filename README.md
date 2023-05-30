@@ -42,3 +42,5 @@
 
 ### 课程
 - [ARM微控制器与嵌入式系统](https://www.xuetangx.com/course/THU08091000246/14768615?channel=i.area.manual_search)
+- [bare-metal-programming-guide](https://github.com/cpq/bare-metal-programming-guide)
+- [baremetal-arm](https://github.com/umanovskis/baremetal-arm)
