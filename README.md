@@ -5,76 +5,61 @@
 
 本指南是为那些希望用GCC编译器和数据手册而无需其他任何东西就能开始为微控制器（单片机）编程的开发者而写的。本指南中的基础知识可以帮助你更好地理解像STM32Cube、Keil、Arduino和其他框架或IDE是怎么工作的。
 
-本指南涵盖了以下话题：
+本指南由若干章节组成，每个章节都有一个相关的完整小项目可以实战，涵盖了以下话题：
 
 - 存储和寄存器
 - 中断向量表
 - 启动代码
 - 链接脚本
-- 使用`make`进行自动化构建
+- 使用 `make` 进行自动化构建
 - GPIO外设和闪烁LED
 - SysTick定时器
 - UART外设和调试输出
 - `printf`重定向到UART
-- 用Segger Ozone进行调试
-- 系统时钟配置
-- 实现一个带设备仪表盘的web服务器
+- 用J-Link进行调试
+- PWM和蜂鸣器
 
-我们将使用[FRDM KL25Z128](https://www.nxp.com/design/development-boards/freedom-development-boards/mcu-boards/freedom-development-platform-for-kinetis-kl14-kl15-kl24-kl25-mcus:FRDM-KL25Z)开发板贯穿整个指南的实践，每个章节都有一个相关的完整小项目可以实战。最后一个web服务器项目非常完整，可以作为你自己项目的框架，因此这个示例项目也提供了其他开发板的适配：
+## 准备工作
+### 硬件准备
+我们将使用[FRDM KL25Z128](https://www.nxp.com/design/development-boards/freedom-development-boards/mcu-boards/freedom-development-platform-for-kinetis-kl14-kl15-kl24-kl25-mcus:FRDM-KL25Z)开发板作为核心板，具体的电路设计为清华大学[Blazar](https://www.blazar.cn)开源硬件系统。
 
-- [FRDM KL25Z128]()
-- [STM32 Nucleo-F429ZI](step-7-webserver/nucleo-f429zi/)
-- [TI EK-TM4C1294XL](step-7-webserver/ek-tm4c1294xl/)
-- [树莓派 Pico-W](step-7-webserver/pico-w/)
+Blazar开源硬件系统以类游戏机的功能布局，搭载了I/O按键、音频、视频接口，具有温度、光线、运动传感器以及标准通讯接口和扩展引脚等，这些模块中包括了I/O、中断、时钟、PWM、通讯、数模变换等嵌入式系统学习的基本单元，可以开发完成各种趣味程序，也可以进一步拓展GPS、蓝牙模块和各种创意应用。
 
-对其他板子的适配支持还在进行中，可以提交issue来建议适配你正在用的板子。
+Blazar 项目团队2017年在清华大学制作完成了MOOC在线开放课程 [ARM微控制器与嵌入式系统](https://www.xuetangx.com/course/THU08091000246/14768615?channel=i.area.manual_search)。2018年，此MOOC课程被评为国家精品在线开放课程，累计已有数万人次在线选课学习。
 
-## 工具配置
+### 工具配置
 
 为继续进行，需要以下工具：
 
-- ARM GCC, https://launchpad.net/gcc-arm-embedded - 编译和链接
-- GNU make, http://www.gnu.org/software/make/ - 构建自动化
-- ST link, https://github.com/stlink-org/stlink - 烧写固件
+- [ARM GCC](https://developer.arm.com/downloads/-/gnu-rm) - 编译和链接
+- [GNU make](http://www.gnu.org/software/make/) - 构建自动化
+- [SEGGER J-Link](https://www.segger.com/downloads/jlink/) - 烧写固件与调试
 
-### Mac安装
+#### Mac安装
 
 打开终端，执行：
 
 ```sh
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-$ brew install gcc-arm-embedded make stlink
+$ brew install gcc-arm-embedded make
 ```
 
-### Linux(Ubuntu)安装
+前往 [SEGGER J-Link](https://www.segger.com/downloads/jlink/) 下载对应安装包安装好 J-Link。
+
+#### Linux(Ubuntu)安装
 
 打开终端，执行：
 
 ```sh
-$ sudo apt -y install gcc-arm-none-eabi make stlink-tools
+$ sudo apt -y install gcc-arm-none-eabi make
 ```
 
-### Windows安装
-
-- 下载并安装 [gcc-arm-none-eabi-10.3-2021.10-win32.exe](https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-win32.exe?rev=29bb46cfa0434fbda93abb33c1d480e6&hash=3C58D05EA5D32EF127B9E4D13B3244D26188713C)，安装过程注意勾选"Add path to environment variable"。
-- 创建 `C:\tools` 文件夹
-- 下载 [stlink-1.7.0-x86_64-w64-mingw32.zip](https://github.com/stlink-org/stlink/releases/download/v1.7.0/stlink-1.7.0-x86_64-w64-mingw32.zip)，解压 `bin/st-flash.exe` 到 `C:\tools`
-- 下载 [make-4.4-without-guile-w32-bin.zip](https://sourceforge.net/projects/ezwinports/files/make-4.4-without-guile-w32-bin.zip/download)，解压 `bin/make.exe` 到 `C:\tools`
-- 添加 `C:\tools` 到 `Path` 环境变量
-- 验证安装：
-  - 下载[这个仓库](https://github.com/cpq/bare-metal-programming-guide/archive/refs/heads/main.zip)，解压到 `C:\`
-  - 打开命令行，执行：
-  <pre style="color: silver;">
-  C:\Users\YOURNAME> <b style="color: black;">cd \</b>
-  C:\> <b style="color: black;">cd bare-metal-programming-guide-main\step-0-minimal</b>
-  C:\bare-metal-programming-guide-main\step-0-minimal> <b style="color: black;">make</b>
-  arm-none-eabi-gcc main.c  -W -Wall -Wextra -Werror ...
-  </pre>
+前往 [SEGGER J-Link](https://www.segger.com/downloads/jlink/) 下载对应安装包安装好 J-Link。
 
 ### 需要的数据手册
 
-- [STM32F429 MCU datasheet](https://www.st.com/resource/en/reference_manual/dm00031020-stm32f405-415-stm32f407-417-stm32f427-437-and-stm32f429-439-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf)
-- [Nucleo-F429ZI board datasheet](https://www.st.com/resource/en/user_manual/dm00244518-stm32-nucleo144-boards-mb1137-stmicroelectronics.pdf)
+- [KL25 Sub-Family Reference Manual](https://gab.wallawalla.edu/~larry.aamodt/cptr480/nxp/KL25P80M48SF0RM.pdf)
+- [Cortex-M0+ Devices Generic User Guide](https://developer.arm.com/documentation/dui0662/b/)
 
 ## 微控制器介绍
 
