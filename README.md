@@ -22,13 +22,7 @@
 
 ## 目录
 * [前言](doc/chap0.md)
-* [微控制器介绍](doc/chap1.md)
-* [闪烁LED](doc/chap2.md)
-* [用SysTick中断实现闪烁](doc/chap3.md)
-* [添加串口调试输出](doc/chap4.md)
-* [重定向`printf()`到串口](doc/chap5.md)
-* [调试](doc/chap6.md)
-* [供应商CMSIS头文件](doc/chap7.md)
+* [首次尝试](doc/chap1.md)
 
 ## 资源链接
 ### 工具
