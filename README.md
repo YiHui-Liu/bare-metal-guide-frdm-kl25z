@@ -21,7 +21,7 @@
 - PWM和蜂鸣器
 
 ## 目录
-* [准备工作](doc/chap0.md)
+* [前言](doc/chap0.md)
 * [微控制器介绍](doc/chap1.md)
 * [闪烁LED](doc/chap2.md)
 * [用SysTick中断实现闪烁](doc/chap3.md)
