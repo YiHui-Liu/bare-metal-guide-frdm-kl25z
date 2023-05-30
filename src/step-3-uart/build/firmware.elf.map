@@ -1,0 +1,312 @@
+Archive member included to satisfy reference by file (symbol)
+
+/home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+                              /tmp/cchnUCnf.o (memcpy)
+/home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+                              /tmp/cchnUCnf.o (memset)
+/home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+                              /tmp/cchnUCnf.o (__aeabi_uidiv)
+/home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+                              /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+
+Discarded input sections
+
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cchnUCnf.o
+ .text          0x00000000        0x0 /tmp/cchnUCnf.o
+ .data          0x00000000        0x0 /tmp/cchnUCnf.o
+ .bss           0x00000000        0x0 /tmp/cchnUCnf.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .group         0x00000000        0xc /tmp/cc1rsURg.o
+ .text          0x00000000        0x0 /tmp/cc1rsURg.o
+ .data          0x00000000        0x0 /tmp/cc1rsURg.o
+ .bss           0x00000000        0x0 /tmp/cc1rsURg.o
+ .data.CORCLK   0x00000000        0x4 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000      0xa90 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x3f /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x22 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x8e /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x51 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000      0x103 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x6a /tmp/cc1rsURg.o
+ .debug_macro   0x00000000      0x1df /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x34 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x26 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000      0x329 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000     0x51e2 /tmp/cc1rsURg.o
+ .debug_macro   0x00000000       0x1c /tmp/cc1rsURg.o
+ .text          0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+ .data          0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+ .bss           0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+ .text          0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+ .data          0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+ .bss           0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+ .data          0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .bss           0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .data          0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+ .bss           0x00000000        0x0 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+interrupt        0x00000000         0x000000c0         xr
+cfmprotrom       0x00000400         0x00000010         xr
+flash            0x00000410         0x0001fbf0         xr
+sram             0x1ffff000         0x00004000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /tmp/cchnUCnf.o
+LOAD /tmp/cc1rsURg.o
+LOAD /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
+LOAD /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a
+LOAD /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a
+                0x20003000                        _estack = (ORIGIN (sram) + LENGTH (sram))
+
+.vectors        0x00000000       0xc0
+                0x00000000                        . = ALIGN (0x4)
+ *(.vectors)
+ .vectors       0x00000000       0xc0 /tmp/cchnUCnf.o
+                0x00000000                tab
+                0x000000c0                        . = ALIGN (0x4)
+
+.cfmprotect     0x00000400       0x10
+                0x00000400                        . = ALIGN (0x4)
+ *(.cfmconfig)
+ .cfmconfig     0x00000400       0x10 /tmp/cchnUCnf.o
+                0x00000400                cfm
+                0x00000410                        . = ALIGN (0x4)
+
+.text           0x00000410      0x36c
+ *(.text*)
+ .text.uart_init
+                0x00000410       0x9c /tmp/cchnUCnf.o
+ .text.__init_hardware
+                0x000004ac       0x10 /tmp/cchnUCnf.o
+ .text.zero_fill_bss
+                0x000004bc       0x18 /tmp/cchnUCnf.o
+ .text.copy_data
+                0x000004d4       0x1c /tmp/cchnUCnf.o
+ .text.timer_expired
+                0x000004f0       0x4c /tmp/cchnUCnf.o
+                0x000004f0                timer_expired
+ .text.main     0x0000053c       0xe4 /tmp/cchnUCnf.o
+                0x0000053c                main
+ .text._reset   0x00000620       0x10 /tmp/cchnUCnf.o
+                0x00000620                _reset
+ .text.SysTick_Handler
+                0x00000630       0x10 /tmp/cc1rsURg.o
+                0x00000630                SysTick_Handler
+ .text.memcpy   0x00000640       0x12 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+                0x00000640                memcpy
+ .text.memset   0x00000652       0x10 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+                0x00000652                memset
+ *fill*         0x00000662        0x2 
+ .text          0x00000664      0x114 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+                0x00000664                __udivsi3
+                0x00000664                __aeabi_uidiv
+                0x00000770                __aeabi_uidivmod
+ .text          0x00000778        0x4 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+                0x00000778                __aeabi_ldiv0
+                0x00000778                __aeabi_idiv0
+
+.glue_7         0x0000077c        0x0
+ .glue_7        0x0000077c        0x0 linker stubs
+
+.glue_7t        0x0000077c        0x0
+ .glue_7t       0x0000077c        0x0 linker stubs
+
+.vfp11_veneer   0x0000077c        0x0
+ .vfp11_veneer  0x0000077c        0x0 linker stubs
+
+.v4_bx          0x0000077c        0x0
+ .v4_bx         0x0000077c        0x0 linker stubs
+
+.iplt           0x0000077c        0x0
+ .iplt          0x0000077c        0x0 /tmp/cchnUCnf.o
+
+.rodata         0x0000077c        0x5
+ *(.rodata*)
+ .rodata.main.str1.4
+                0x0000077c        0x5 /tmp/cchnUCnf.o
+
+.rel.dyn        0x00000784        0x0
+ .rel.iplt      0x00000784        0x0 /tmp/cchnUCnf.o
+
+.data           0x1ffff000        0x4 load address 0x00000781
+                0x1ffff000                        _sdata = .
+ *(.first_data)
+ *(.data SORT_BY_NAME(.data.*))
+ .data.BUSCLK   0x1ffff000        0x4 /tmp/cc1rsURg.o
+                0x1ffff000                BUSCLK
+                0x1ffff004                        _edata = .
+                0x00000781                        _sidata = LOADADDR (.data)
+
+.igot.plt       0x1ffff004        0x0 load address 0x00000785
+ .igot.plt      0x1ffff004        0x0 /tmp/cchnUCnf.o
+
+.bss            0x1ffff004        0x4 load address 0x00000785
+                0x1ffff004                        _sbss = .
+ *(.bss SORT_BY_NAME(.bss.*) COMMON)
+ .bss.ms_ticks  0x1ffff004        0x4 /tmp/cc1rsURg.o
+                0x1ffff004                ms_ticks
+                0x1ffff008                        _ebss = .
+                0x1ffff008                        _end = .
+OUTPUT(build/firmware.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000      0x8ef
+ .debug_info    0x00000000      0x811 /tmp/cchnUCnf.o
+ .debug_info    0x00000811       0xde /tmp/cc1rsURg.o
+
+.debug_abbrev   0x00000000      0x353
+ .debug_abbrev  0x00000000      0x2bf /tmp/cchnUCnf.o
+ .debug_abbrev  0x000002bf       0x94 /tmp/cc1rsURg.o
+
+.debug_loclists
+                0x00000000      0x144
+ .debug_loclists
+                0x00000000      0x144 /tmp/cchnUCnf.o
+
+.debug_aranges  0x00000000       0x70
+ .debug_aranges
+                0x00000000       0x50 /tmp/cchnUCnf.o
+ .debug_aranges
+                0x00000050       0x20 /tmp/cc1rsURg.o
+
+.debug_rnglists
+                0x00000000       0x58
+ .debug_rnglists
+                0x00000000       0x45 /tmp/cchnUCnf.o
+ .debug_rnglists
+                0x00000045       0x13 /tmp/cc1rsURg.o
+
+.debug_macro    0x00000000     0x757b
+ .debug_macro   0x00000000      0x1cb /tmp/cchnUCnf.o
+ .debug_macro   0x000001cb      0xa90 /tmp/cchnUCnf.o
+ .debug_macro   0x00000c5b       0x3f /tmp/cchnUCnf.o
+ .debug_macro   0x00000c9a       0x22 /tmp/cchnUCnf.o
+ .debug_macro   0x00000cbc       0x8e /tmp/cchnUCnf.o
+ .debug_macro   0x00000d4a       0x51 /tmp/cchnUCnf.o
+ .debug_macro   0x00000d9b      0x103 /tmp/cchnUCnf.o
+ .debug_macro   0x00000e9e       0x6a /tmp/cchnUCnf.o
+ .debug_macro   0x00000f08      0x1df /tmp/cchnUCnf.o
+ .debug_macro   0x000010e7       0x34 /tmp/cchnUCnf.o
+ .debug_macro   0x0000111b       0x26 /tmp/cchnUCnf.o
+ .debug_macro   0x00001141      0x329 /tmp/cchnUCnf.o
+ .debug_macro   0x0000146a     0x51e2 /tmp/cchnUCnf.o
+ .debug_macro   0x0000664c       0x1c /tmp/cchnUCnf.o
+ .debug_macro   0x00006668       0x61 /tmp/cchnUCnf.o
+ .debug_macro   0x000066c9       0x24 /tmp/cchnUCnf.o
+ .debug_macro   0x000066ed       0x43 /tmp/cchnUCnf.o
+ .debug_macro   0x00006730       0x3a /tmp/cchnUCnf.o
+ .debug_macro   0x0000676a       0x89 /tmp/cchnUCnf.o
+ .debug_macro   0x000067f3      0x460 /tmp/cchnUCnf.o
+ .debug_macro   0x00006c53       0x22 /tmp/cchnUCnf.o
+ .debug_macro   0x00006c75       0x16 /tmp/cchnUCnf.o
+ .debug_macro   0x00006c8b       0xa5 /tmp/cchnUCnf.o
+ .debug_macro   0x00006d30       0x94 /tmp/cchnUCnf.o
+ .debug_macro   0x00006dc4       0x16 /tmp/cchnUCnf.o
+ .debug_macro   0x00006dda       0x43 /tmp/cchnUCnf.o
+ .debug_macro   0x00006e1d       0x34 /tmp/cchnUCnf.o
+ .debug_macro   0x00006e51       0x10 /tmp/cchnUCnf.o
+ .debug_macro   0x00006e61       0x58 /tmp/cchnUCnf.o
+ .debug_macro   0x00006eb9       0x8e /tmp/cchnUCnf.o
+ .debug_macro   0x00006f47       0x1c /tmp/cchnUCnf.o
+ .debug_macro   0x00006f63      0x177 /tmp/cchnUCnf.o
+ .debug_macro   0x000070da      0x369 /tmp/cchnUCnf.o
+ .debug_macro   0x00007443       0x16 /tmp/cchnUCnf.o
+ .debug_macro   0x00007459       0x29 /tmp/cchnUCnf.o
+ .debug_macro   0x00007482       0x16 /tmp/cchnUCnf.o
+ .debug_macro   0x00007498       0x35 /tmp/cchnUCnf.o
+ .debug_macro   0x000074cd       0xae /tmp/cc1rsURg.o
+
+.debug_line     0x00000000      0x869
+ .debug_line    0x00000000      0x642 /tmp/cchnUCnf.o
+ .debug_line    0x00000642      0x227 /tmp/cc1rsURg.o
+
+.debug_str      0x00000000    0x2c932
+ .debug_str     0x00000000    0x2c91a /tmp/cchnUCnf.o
+                              0x2cca0 (size before relaxing)
+ .debug_str     0x0002c91a       0x18 /tmp/cc1rsURg.o
+                              0x2848e (size before relaxing)
+
+.comment        0x00000000       0x55
+ .comment       0x00000000       0x55 /tmp/cchnUCnf.o
+                                 0x56 (size before relaxing)
+ .comment       0x00000055       0x56 /tmp/cc1rsURg.o
+
+.ARM.attributes
+                0x00000000       0x2c
+ .ARM.attributes
+                0x00000000       0x2c /tmp/cchnUCnf.o
+ .ARM.attributes
+                0x0000002c       0x2c /tmp/cc1rsURg.o
+ .ARM.attributes
+                0x00000058       0x2c /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+ .ARM.attributes
+                0x00000084       0x2c /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+ .ARM.attributes
+                0x000000b0       0x1e /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x000000ce       0x1e /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+
+.debug_frame    0x00000000      0x12c
+ .debug_frame   0x00000000       0xa4 /tmp/cchnUCnf.o
+ .debug_frame   0x000000a4       0x20 /tmp/cc1rsURg.o
+ .debug_frame   0x000000c4       0x28 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memcpy-stub.o)
+ .debug_frame   0x000000ec       0x20 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(libc_a-memset.o)
+ .debug_frame   0x0000010c       0x20 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+
+.debug_line_str
+                0x00000000       0xd2
+ .debug_line_str
+                0x00000000       0xd2 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .debug_line_str
+                0x000000d2       0xd2 /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)

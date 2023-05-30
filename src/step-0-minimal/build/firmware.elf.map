@@ -1,0 +1,150 @@
+
+Discarded input sections
+
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .group         0x00000000        0xc /tmp/cc4Mbs1R.o
+ .text          0x00000000        0x0 /tmp/cc4Mbs1R.o
+ .data          0x00000000        0x0 /tmp/cc4Mbs1R.o
+ .bss           0x00000000        0x0 /tmp/cc4Mbs1R.o
+ .text.main     0x00000000        0x4 /tmp/cc4Mbs1R.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+interrupt        0x00000000         0x000000c0         xr
+cfmprotrom       0x00000400         0x00000010         xr
+flash            0x00000410         0x0001fbf0         xr
+sram             0x1ffff000         0x00004000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /tmp/cc4Mbs1R.o
+LOAD /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
+LOAD /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a
+LOAD /home/fox/DevKit/Embedded/GNUARM-12.2/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a
+                0x20003000                        _estack = (ORIGIN (sram) + LENGTH (sram))
+
+.vectors        0x00000000       0xc0
+                0x00000000                        . = ALIGN (0x4)
+ *(.vectors)
+ .vectors       0x00000000       0xc0 /tmp/cc4Mbs1R.o
+                0x00000000                tab
+                0x000000c0                        . = ALIGN (0x4)
+
+.cfmprotect     0x00000400       0x10
+                0x00000400                        . = ALIGN (0x4)
+ *(.cfmconfig)
+ .cfmconfig     0x00000400       0x10 /tmp/cc4Mbs1R.o
+                0x00000400                cfm
+                0x00000410                        . = ALIGN (0x4)
+
+.text           0x00000410       0x34
+ *(.text*)
+ .text._reset   0x00000410       0x34 /tmp/cc4Mbs1R.o
+                0x00000410                _reset
+
+.glue_7         0x00000444        0x0
+ .glue_7        0x00000444        0x0 linker stubs
+
+.glue_7t        0x00000444        0x0
+ .glue_7t       0x00000444        0x0 linker stubs
+
+.vfp11_veneer   0x00000444        0x0
+ .vfp11_veneer  0x00000444        0x0 linker stubs
+
+.v4_bx          0x00000444        0x0
+ .v4_bx         0x00000444        0x0 linker stubs
+
+.iplt           0x00000444        0x0
+ .iplt          0x00000444        0x0 /tmp/cc4Mbs1R.o
+
+.rel.dyn        0x00000444        0x0
+ .rel.iplt      0x00000444        0x0 /tmp/cc4Mbs1R.o
+
+.rodata
+ *(.rodata*)
+
+.data           0x1ffff000        0x0 load address 0x00000444
+                0x1ffff000                        _sdata = .
+ *(.first_data)
+ *(.data SORT_BY_NAME(.data.*))
+                0x1ffff000                        _edata = .
+                0x00000444                        _sidata = LOADADDR (.data)
+
+.igot.plt       0x1ffff000        0x0 load address 0x00000444
+ .igot.plt      0x1ffff000        0x0 /tmp/cc4Mbs1R.o
+
+.bss            0x1ffff000        0x0 load address 0x00000444
+                0x1ffff000                        _sbss = .
+ *(.bss SORT_BY_NAME(.bss.*) COMMON)
+                0x1ffff000                        _ebss = .
+                0x1ffff000                        _end = .
+OUTPUT(build/firmware.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000      0x18e
+ .debug_info    0x00000000      0x18e /tmp/cc4Mbs1R.o
+
+.debug_abbrev   0x00000000       0xfc
+ .debug_abbrev  0x00000000       0xfc /tmp/cc4Mbs1R.o
+
+.debug_loclists
+                0x00000000       0x63
+ .debug_loclists
+                0x00000000       0x63 /tmp/cc4Mbs1R.o
+
+.debug_aranges  0x00000000       0x28
+ .debug_aranges
+                0x00000000       0x28 /tmp/cc4Mbs1R.o
+
+.debug_rnglists
+                0x00000000       0x19
+ .debug_rnglists
+                0x00000000       0x19 /tmp/cc4Mbs1R.o
+
+.debug_macro    0x00000000     0x157d
+ .debug_macro   0x00000000       0xaf /tmp/cc4Mbs1R.o
+ .debug_macro   0x000000af      0xa90 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000b3f       0x22 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000b61       0x5b /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000bbc       0x24 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000be0       0x94 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000c74       0x43 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000cb7      0x103 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000dba       0x3a /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000df4       0x57 /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000e4b       0x6a /tmp/cc4Mbs1R.o
+ .debug_macro   0x00000eb5      0x1df /tmp/cc4Mbs1R.o
+ .debug_macro   0x00001094       0x89 /tmp/cc4Mbs1R.o
+ .debug_macro   0x0000111d      0x460 /tmp/cc4Mbs1R.o
+
+.debug_line     0x00000000      0x2c5
+ .debug_line    0x00000000      0x2c5 /tmp/cc4Mbs1R.o
+
+.debug_str      0x00000000     0x4f79
+ .debug_str     0x00000000     0x4f79 /tmp/cc4Mbs1R.o
+                               0x5103 (size before relaxing)
+
+.comment        0x00000000       0x55
+ .comment       0x00000000       0x55 /tmp/cc4Mbs1R.o
+                                 0x56 (size before relaxing)
+
+.ARM.attributes
+                0x00000000       0x2c
+ .ARM.attributes
+                0x00000000       0x2c /tmp/cc4Mbs1R.o
+
+.debug_frame    0x00000000       0x30
+ .debug_frame   0x00000000       0x30 /tmp/cc4Mbs1R.o
