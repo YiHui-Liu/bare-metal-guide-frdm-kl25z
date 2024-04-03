@@ -12,10 +12,21 @@ Blazar 开源硬件系统以类游戏机的功能布局，搭载了 I/O 按键�
 
 Blazar 项目团队 2017 年在清华大学制作完成了 MOOC 在线开放课程 [ARM微控制器与嵌入式系统](https://www.xuetangx.com/course/THU08091000246/14768615?channel=i.area.manual_search)。2018 年，此 MOOC 课程被评为国家精品在线开放课程，累计已有数万人次在线选课学习。
 
+## Linux 环境准备
+本指南的开发将会在 Linux 环境下进行，因此需要准备好 Linux 开发环境。如果您还没有 Linux 开发环境，有三种主要方式可以选择：
+1. 在本地安装 Linux：有一台运行 Linux 的计算机，可以直接安装开发环境。
+2. 在虚拟机中安装 Linux：在 VMware、VirtualBox 或其他虚拟机软件中安装 Linux 系统。
+3. 在 Windows 系统上安装 Linux 子系统（Windows Subsystem for Linux，WSL）：Windows 10 版本 1903 及以上版本支持安装 WSL2 系统。
+
+### 本地安装 Linux（待补充）
+
+### 虚拟机安装 Linux（待补充）
+
+### WSL 安装 Linux（待补充）
+安装结束后，由于调试过程中需要用到 USB 接口进行通信，我们需要将 USB 接口从 Windows 系统中转接到 WSL 中，使用的工具为 [usbipd-win](https://github.com/dorssel/usbipd-win)，具体可参考 [连接 USB 设备](https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb)。
+
 ## 工具配置
-
 为继续进行，需要以下工具：
-
 - [ARM GCC](https://developer.arm.com/downloads/-/gnu-rm) - 编译和链接
 - [GNU make](http://www.gnu.org/software/make/) - 构建自动化
 - [SEGGER J-Link](https://www.segger.com/downloads/jlink/) - 烧写固件与调试
@@ -50,7 +61,7 @@ $ brew install make
 ### 烧录与调试工具 J-Link
 前往 [SEGGER J-Link](https://www.segger.com/downloads/jlink/) 下载对应安装包安装好 J-Link，安装完成之后将安装位置加入到环境变量`PATH`中。
 
-### VSCode
+### 代码编辑与调试平台 VSCode
 安装好 VSCode 本体之后，我们需要安装若干插件完善开发的体验：
 * [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools): C/C++ IntelliSense, debugging, and code browsing.
 * [Cortex-Debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug): ARM Cortex-M GDB Debugger support for VSCode
@@ -64,3 +75,4 @@ $ brew install make
 
 ## 参考资料
 1. [Visual Studio Code for C/C++ with ARM Cortex-M: Part 1 – Installation](https://mcuoneclipse.com/2021/05/01/visual-studio-code-for-c-c-with-arm-cortex-m-part-1/)
+2. [连接 USB 设备](https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb)
