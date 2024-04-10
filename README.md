@@ -12,12 +12,13 @@
 - 中断向量表
 - 启动代码
 - 链接脚本
-- 使用 `make` 进行自动化构建
+- 使用make进行自动化构建
 - GPIO外设和闪烁LED
 - SysTick定时器
 - UART外设和调试输出
-- `printf`重定向到UART
+- printf重定向到UART
 - 用J-Link进行调试
+- 系统时钟配置
 - PWM和蜂鸣器
 
 ## 目录

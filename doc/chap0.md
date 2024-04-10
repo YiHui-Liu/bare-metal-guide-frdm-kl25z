@@ -13,7 +13,7 @@ Blazar 开源硬件系统以类游戏机的功能布局，搭载了 I/O 按键�
 Blazar 项目团队 2017 年在清华大学制作完成了 MOOC 在线开放课程 [ARM微控制器与嵌入式系统](https://www.xuetangx.com/course/THU08091000246/14768615?channel=i.area.manual_search)。2018 年，此 MOOC 课程被评为国家精品在线开放课程，累计已有数万人次在线选课学习。
 
 ## Linux 环境准备
-本指南的开发将会在 Linux 环境下进行，因此需要准备好 Linux 开发环境。如果您还没有 Linux 开发环境，有三种主要方式可以选择：
+本指南的开发将会在 Linux 环境下进行，因此需要准备好 Linux 开发环境。如果你还没有 Linux 开发环境，有三种主要方式可以选择：
 1. 在本地安装 Linux：有一台运行 Linux 的计算机，可以直接安装开发环境。
 2. 在虚拟机中安装 Linux：在 VMware、VirtualBox 或其他虚拟机软件中安装 Linux 系统。
 3. 在 Windows 系统上安装 Linux 子系统（Windows Subsystem for Linux，WSL）：Windows 10 版本 1903 及以上版本支持安装 WSL2 系统。
@@ -33,7 +33,7 @@ Blazar 项目团队 2017 年在清华大学制作完成了 MOOC 在线开放课�
 - [Visual Studio Code](https://code.visualstudio.com/) - 代码编写与调试
 
 ### GCC交叉编译工具链
-什么是交叉编译器？它在一个平台上运行，但为另一个平台创建可执行文件，在本指南中通常在 x86-64 平台上运行 Linux，得到 ARM 平台的可执行文件。GNU 构建工具，以及扩展的 GCC，使用目标三元组的概念来描述平台，三元组列出了平台的体系结构、供应商和操作系统或二进制接口类型。目标三元组的供应商部分通常是无关紧要的。您可以通过运行 `gcc -dumpmachine`来查找您自己机器的目标三元组，例如：
+什么是交叉编译器？它在一个平台上运行，但为另一个平台创建可执行文件，在本指南中通常在 x86-64 平台上运行 Linux，得到 ARM 平台的可执行文件。GNU 构建工具，以及扩展的 GCC，使用目标三元组的概念来描述平台，三元组列出了平台的体系结构、供应商和操作系统或二进制接口类型。目标三元组的供应商部分通常是无关紧要的。你可以通过运行 `gcc -dumpmachine`来查找你自己机器的目标三元组，例如：
 ```bash
 $ gcc -dumpmachine
 x86_64-linux-gnu
